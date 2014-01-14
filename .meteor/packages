@@ -9,3 +9,5 @@ insecure
 preserve-inputs
 stylus
 ejson
+iron-router
+random

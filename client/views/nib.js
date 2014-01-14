@@ -39,11 +39,12 @@ var page = {
 // - - - - - - - - - - - - - - - - - - - - - - - - 
 
 Template.nib.events({"keyup #size": function() {
-  var size = page.size();
+  var start = page.start();
+  var size = page.size();  
   if (size !== "" && !isNaN(size)) {
-    page.start().enable();
+    start.enable();
   } else {
-    page.start().disable();
+    start.disable();
   }
 }});
 
@@ -59,21 +60,22 @@ Template.nib.events({"click #start":function () {
 // - - - - - - - - - - - - - - - - - - - - - - - - 
 
 Template.nib.events({"keyup #pid":function() {
+  var join = page.join();
   var pid = page.pid();  
   //var x = Nibs.find({});
   //alert(EJSON.stringify(x));  
   if (!Nibs.findOne({ pid:pid })) {
-    page.join().disable();
+    join.disable();
   } else {
     // never gets to here
-    page.join().enable();
+    join.enable();
   }
 }});
 
 // - - - - - - - - - - - - - - - - - - - - - - - - 
 
 Template.nib.events({"click #join":function () {
-  // Needs router.js
-  //window.open("team/" + gid + "/" + color + "/" + game.mode, "_blank");  
+  var pid = page.pid();
+  window.open("board/" + pid, "_blank");  
 }});
 
