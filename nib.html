@@ -3,11 +3,45 @@
 </head>
 
 <body>
-  {{> hello}}
+  {{> nib}}
 </body>
 
-<template name="hello">
-  <h1>Hello World!</h1>
-  {{greeting}}
-  <input type="button" value="Click" />
+<template name="nib">
+  <div class="nib">
+    <table align="center" cellspacing="0" cellpadding="0">
+      <tr align="center">
+        <td><input type="text" value="12" id="size"></td>
+      </tr>
+      <tr align="center">
+        <td>{{> downArrow}}</td>
+      </tr>
+      <tr align="center">
+        <td><input type="button" value="start" id="start"></td>
+      </tr>
+      <tr align="center">
+        <td>{{> downArrow}}</td>
+      </tr>
+      <tr align="center">
+        <td><input type="text" id="id" value=""></td>
+      </tr>
+      <tr align="center">
+        <td>{{> upArrow}}</td>
+      </tr>
+      <tr align="center">
+        <td>
+          <div id="join">
+            <input type="button" value="join" id="join" disabled="disabled">
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</template>
+
+<template name="downArrow">
+  <div class="arrow">&darr;</div>
+</template>
+
+<template name="upArrow">
+  <div class="arrow">&uarr;</div>
 </template>
