@@ -1,0 +1,13 @@
+$ meteor mongo
+meteor:PRIMARY>show collections
+nibs
+system.indexes
+meteor:PRIMARY>db.nibs.find()
+{ "pid" : "a3e454", "size" : "5", "_id" : "Y27J8R3sTnCyAFndA" }
+meteor:PRIMARY>db.nibs.find().count()
+1
+meteor:PRIMARY>db.nibs.remove()
+meteor:PRIMARY>db.nibs.find()
+meteor:PRIMARY>db.nibs.find().count()
+0
+

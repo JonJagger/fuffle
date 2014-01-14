@@ -1,6 +1,6 @@
 
 newPid = function() {
-  return Random.hexString(4);  
+  return Random.hexString(6);  
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - 

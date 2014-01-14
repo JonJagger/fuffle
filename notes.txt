@@ -1,0 +1,8 @@
+
+$ meteor create nibs
+$ cd nibs
+$ meteor uninstall --system
+$ meteor add stylus
+$ meteor add ejson
+$ meteor add random
+$ mrt add iron-router
