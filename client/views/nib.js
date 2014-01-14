@@ -62,12 +62,9 @@ Template.nib.events({"click #start":function () {
 Template.nib.events({"keyup #pid":function() {
   var join = page.join();
   var pid = page.pid();  
-  //var x = Nibs.find({});
-  //alert(EJSON.stringify(x));  
   if (!Nibs.findOne({ pid:pid })) {
     join.disable();
   } else {
-    // never gets to here
     join.enable();
   }
 }});
