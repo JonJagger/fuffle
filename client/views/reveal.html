@@ -1,9 +1,16 @@
 
 <template name="reveal">
-  <div class="reveal">  
+  <div class="reveal">
+    {{> question}}
     {{#each answers}}
       {{> answer}}
     {{/each}}    
+  </div>
+</template>
+
+<template name="question">
+  <div class="question">
+    {{text}}
   </div>
 </template>
 
