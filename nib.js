@@ -7,20 +7,6 @@ Answers = new Meteor.Collection('answers');
 
 //==========================================================
 
-newQid = function() {
-  // could iterate 1000 times looking for qid with
-  // lowest entropy, eg AAABBB
-  return Random.hexString(6);  
-};
-
-// - - - - - - - - - - - - - - - - - - - - - - - - 
-
-findQuestion = function(qid) {
-  return Questions.findOne({ qid:qid });
-};
-
-// - - - - - - - - - - - - - - - - - - - - - - - - 
-
 var enabled = function(button) {
   button.enable = function() {
     this.removeAttr("disabled");
@@ -59,15 +45,15 @@ var home = {
 
 if (Meteor.isClient) {
   
-  Template.home.qtext = function() {
-    var question = findQuestion(this.qid);
+  Template.home.qtext = function() {    
+    var question = Questions.findOne({ qid:this.qid });
     return question ? question.text : "";
   };
   
   // - - - - - - - - - - - - - - - - - - - - - - - -
   
-  Template.home.validQid = function() {
-    return findQuestion(this.qid);  
+  Template.home.validQid = function() {    
+    return Questions.findOne({ qid:this.qid });
   };
   
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -75,7 +61,7 @@ if (Meteor.isClient) {
   Template.home.events({"click #question":function () {  
     var buttons = {
       ok:function() {
-        var question = { qid:newQid(), text:$("#question_text").val() };
+        var question = { qid:Random.hexString(6), text:$("#question_text").val() };
         Questions.insert(question);
         home.qid(question.qid);
         home.qtext(question.text);
@@ -88,7 +74,7 @@ if (Meteor.isClient) {
     };
     var html = "<textarea id='question_text'>enter it here</textarea>";
     //TODO: ok button enabled only if question entered
-    var ask = $('<div>')
+    var question = $('<div>')
         .html('<div class="dialog">' + html + '</div>')    
         .dialog({
           autoOpen: false,
@@ -98,14 +84,14 @@ if (Meteor.isClient) {
           modal: true,
           buttons: buttons
         });
-    ask.dialog('open');
+    question.dialog('open');
     $("#question_text").select();
   }});
   
   // - - - - - - - - - - - - - - - - - - - - - - - -
   
   Template.home.events({"keyup #qid":function() {
-    var question = findQuestion(home.qid());  
+    var question = Questions.findOne({ qid:home.qid() });    
     if (!question) {
       home.qtext("");
       home.answer().disable();
@@ -153,11 +139,12 @@ if (Meteor.isClient) {
   }});
 
   // - - - - - - - - - - - - - - - - - - - - - - - - 
-  // - - - - - - - - - - - - - - - - - - - - - - - - 
 
   Template.question.text = function() {
     return Questions.findOne({ qid:this.qid }).text;
   };
+  
+  // - - - - - - - - - - - - - - - - - - - - - - - -
   
   Template.reveal.answers = function() {
     return Answers.find({ qid:this.qid });
