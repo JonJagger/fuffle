@@ -88,16 +88,6 @@ Template.home.events({"click #question":function () {
       });
   ask.dialog('open');
   $("#question_text").select();
-  
-  
-  
-  //TODO: jQuery dialog. Modal.
-  // if asked
-  //   get qid and text from dialog
-  //   insert Question in mongo
-  //   paste qid into page
-  //   paste text into page
-  //   enable answer button
 }});
 
 // - - - - - - - - - - - - - - - - - - - - - - - - 
