@@ -67,11 +67,11 @@ Template.home.events({"click #question":function () {
       Questions.insert(question);
       home.qid(question.qid);
       home.qtext(question.text);
-      home.answer().enable();      
-      $(this).dialog('close');      
+      home.answer().enable();
+      $(this).remove();
     },
     cancel:function() {
-      $(this).dialog('close');            
+      $(this).remove();
     }
   };
   var html = "<textarea id='question_text'>enter it here</textarea>";
@@ -106,10 +106,40 @@ Template.home.events({"keyup #qid":function() {
 // - - - - - - - - - - - - - - - - - - - - - - - - 
 
 Template.home.events({"click #answer":function () {
-  var answer = { qid:home.qid(), text:"127" };
-  Answers.insert(answer);
+  
+  var buttons = {
+    ok:function() {
+      var answer = { qid:home.qid(), text:$("#answer_text").val() };
+      Answers.insert(answer);
+      home.answer().disable();
+      home.reveal().enable();
+      $(this).remove();
+    },
+    cancel:function() {
+      $(this).remove();
+    }
+  };
+  var html = "<textarea id='answer_text'>enter it here</textarea>";
+  //TODO: ok button enabled only if question entered
+  var answer = $('<div>')
+      .html('<div class="dialog">' + html + '</div>')    
+      .dialog({
+        autoOpen: false,
+        width: "400",
+        height: "230",
+        title: "answer",
+        modal: true,
+        buttons: buttons
+      });
+  answer.dialog('open');
+  $("#answer_text").select();
+  
+  
+  
+  //var answer = { qid:home.qid(), text:"127" };
+  //Answers.insert(answer);
   //home.answer().disable();  // TEMP... TO SEE MULTIPLE
-  home.reveal().enable();
+  //home.reveal().enable();
   // jQuery dialog. Modal.
   // if answered
   //   home.answer().disable();
