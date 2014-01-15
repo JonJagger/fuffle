@@ -60,12 +60,36 @@ Template.home.validQid = function() {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - 
 
-Template.home.events({"click #question":function () {
-  var question = { qid:newQid(), text:"slimed?" };
-  Questions.insert(question);
-  home.qid(question.qid);
-  home.qtext(question.text);
-  home.answer().enable();
+Template.home.events({"click #question":function () {  
+  var buttons = {
+    ok:function() {
+      var question = { qid:newQid(), text:$("#q").val() };
+      Questions.insert(question);
+      home.qid(question.qid);
+      home.qtext(question.text);
+      home.answer().enable();      
+      $(this).dialog('close');      
+    },
+    cancel:function() {
+      $(this).dialog('close');            
+    }
+  };
+  var html = "<input type='text' id='q' value=''>";
+  //TODO: ok button enabled only if question entered
+  var ask = $('<div>')
+      .html('<div class="dialog">' + html + '</div>')    
+      .dialog({
+        autoOpen: false,
+        //width: $(html).data("width"),
+        //height: $(html).data("height"),
+        title: "question",
+        modal: true,
+        buttons: buttons
+      });
+  ask.dialog('open');
+  
+  
+  
   //TODO: jQuery dialog. Modal.
   // if asked
   //   get qid and text from dialog

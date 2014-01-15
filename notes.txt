@@ -6,3 +6,4 @@ $ meteor add stylus
 $ meteor add ejson
 $ meteor add random
 $ mrt add iron-router
+$ mrt add jquery-ui
