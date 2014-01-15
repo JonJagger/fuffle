@@ -5,6 +5,10 @@ newQid = function() {
   return Random.hexString(6);  
 };
 
+findQuestion = function(qid) {
+  return Questions.findOne({ qid:qid });
+};
+
 // - - - - - - - - - - - - - - - - - - - - - - - - 
 
 var enabled = function(button) {
@@ -43,6 +47,19 @@ var home = {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - 
 
+Template.home.qtext = function() {
+  var question = findQuestion(this.qid);
+  return question ? question.text : "";
+};
+
+// - - - - - - - - - - - - - - - - - - - - - - - - 
+
+Template.home.validQid = function() {
+  return findQuestion(this.qid);  
+};
+
+// - - - - - - - - - - - - - - - - - - - - - - - - 
+
 Template.home.events({"click #question":function () {
   var question = { qid:newQid(), text:"slimed?" };
   Questions.insert(question);
@@ -61,7 +78,7 @@ Template.home.events({"click #question":function () {
 // - - - - - - - - - - - - - - - - - - - - - - - - 
 
 Template.home.events({"keyup #qid":function() {
-  var question = Questions.findOne({ qid:home.qid() });  
+  var question = findQuestion(home.qid());  
   if (!question) {
     home.qtext("");
     home.answer().disable();
@@ -87,5 +104,5 @@ Template.home.events({"click #answer":function () {
 // - - - - - - - - - - - - - - - - - - - - - - - - 
 
 Template.home.events({"click #reveal":function () {
-  window.open("reveal/" + home.qid(), "_blank");  
+  window.open("/reveal/" + home.qid(), "_blank");  
 }});

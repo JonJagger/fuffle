@@ -11,19 +11,24 @@
         <td>{{> downArrow}}</td>
       </tr>
       <tr align="center">
-        <td><input type="text" id="qid" value=""></td>
+        <td><input type="text" id="qid" value="{{qid}}"></td>
       </tr>
       <tr align="center">
-        <td><input type="text" id="qtext" value="" readonly></td>
+        <td><input type="text" id="qtext" value="{{qtext}}" readonly></td>
       </tr>      
       <tr align="center">
         <td>{{> upArrow}}</td>
       </tr>
       <tr align="center">
         <td>
-          <input type="button" value="answer" id="answer" disabled="disabled">
+          {{#if validQid }}
+            <input type="button" value="answer" id="answer">
+          {{else}}
+            <input type="button" value="answer" id="answer" disabled="disabled">
+          {{/if}}
         </td>
       </tr>
+      <!-- TODO: number of answers so far here -->
       <tr align="center">
         <td>
           <input type="button" value="reveal" id="reveal" disabled="disabled">
