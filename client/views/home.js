@@ -74,14 +74,14 @@ Template.home.events({"click #question":function () {
       $(this).dialog('close');            
     }
   };
-  var html = "<input type='text' id='q' value=''>";
+  var html = "<textarea id='q'></textarea>";
   //TODO: ok button enabled only if question entered
   var ask = $('<div>')
       .html('<div class="dialog">' + html + '</div>')    
       .dialog({
         autoOpen: false,
-        //width: $(html).data("width"),
-        //height: $(html).data("height"),
+        width: "400",
+        height: "250",
         title: "question",
         modal: true,
         buttons: buttons
