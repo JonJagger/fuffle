@@ -63,7 +63,7 @@ Template.home.validQid = function() {
 Template.home.events({"click #question":function () {  
   var buttons = {
     ok:function() {
-      var question = { qid:newQid(), text:$("#q").val() };
+      var question = { qid:newQid(), text:$("#question_text").val() };
       Questions.insert(question);
       home.qid(question.qid);
       home.qtext(question.text);
@@ -74,19 +74,20 @@ Template.home.events({"click #question":function () {
       $(this).dialog('close');            
     }
   };
-  var html = "<textarea id='q'></textarea>";
+  var html = "<textarea id='question_text'>enter it here</textarea>";
   //TODO: ok button enabled only if question entered
   var ask = $('<div>')
       .html('<div class="dialog">' + html + '</div>')    
       .dialog({
         autoOpen: false,
         width: "400",
-        height: "250",
+        height: "230",
         title: "question",
         modal: true,
         buttons: buttons
       });
   ask.dialog('open');
+  $("#question_text").select();
   
   
   
