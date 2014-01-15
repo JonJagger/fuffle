@@ -1,14 +1,10 @@
 
 Router.map(function() { 
-  this.route('nib', { path: '/' });
+  this.route('home',   { path: '/' });  
   
-  this.route('board', {
-    path: '/board/:pid',
-    data: function() {
-      return {
-         pid: this.params.pid
-      }
-    }
+  this.route('reveal', {
+    path: '/reveal/:qid',
+    data: function() { return { gid: this.params.gid }}
   });
   
 });

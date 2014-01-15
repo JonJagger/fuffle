@@ -1,28 +1,30 @@
 
-<template name="nib">
-  <div class="nib">
+<template name="home">
+  <div class="home">
     <table align="center" cellspacing="0" cellpadding="0">
       <tr align="center">
-        <td><input type="text" value="" id="size"></td>
+        <td>
+          <input type="button" value="question" id="question">
+        </td>          
       </tr>
       <tr align="center">
         <td>{{> downArrow}}</td>
       </tr>
       <tr align="center">
-        <td><input type="button" value="start" id="start" disabled="disabled"></td>
+        <td><input type="text" id="qid" value=""></td>
       </tr>
-      <tr align="center">
-        <td>{{> downArrow}}</td>
-      </tr>
-      <tr align="center">
-        <td><input type="text" id="pid" value=""></td>
-      </tr>
+      <!-- question text (readonly) here -->
       <tr align="center">
         <td>{{> upArrow}}</td>
       </tr>
       <tr align="center">
         <td>
-          <input type="button" value="join" id="join" disabled="disabled">
+          <input type="button" value="answer" id="answer" disabled="disabled">
+        </td>
+      </tr>
+      <tr align="center">
+        <td>
+          <input type="button" value="reveal" id="reveal" disabled="disabled">
         </td>
       </tr>
     </table>

@@ -1,8 +1,8 @@
 
-Nibs = new Meteor.Collection('nibs');
+Questions = new Meteor.Collection('questions');
 /*
- * Nibs.insert({
- *     pid: "138ef8"
- *    size: "6" 
+ * Questions.insert({
+ *     qid: "138ef8"
+ *    text: "what is 9 * 6" 
  * });
  */   
