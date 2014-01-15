@@ -45,3 +45,26 @@
 <template name="upArrow">
   <div class="arrow">&uarr;</div>
 </template>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<template name="reveal">
+  <div class="reveal">
+    {{> question}}
+    {{#each answers}}
+      {{> answer}}
+    {{/each}}    
+  </div>
+</template>
+
+<template name="question">
+  <div class="question">
+    {{text}}
+  </div>
+</template>
+
+<template name="answer">
+  <div class="answer">
+   {{text}}
+  </div>
+</template>
