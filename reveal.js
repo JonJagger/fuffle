@@ -1,4 +1,6 @@
 
+if (Meteor.isClient) {
+
 Template.question.text = function() {
   return Questions.findOne({ qid:this.qid }).text;
 };
@@ -6,6 +8,8 @@ Template.question.text = function() {
 Template.reveal.answers = function() {
   return Answers.find({ qid:this.qid });
 };
+
+}
 
 
 
