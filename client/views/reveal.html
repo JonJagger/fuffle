@@ -1,6 +1,14 @@
 
 <template name="reveal">
   <div class="reveal">  
-    Hello from the answers...
+    {{#each answers}}
+      {{> answer}}
+    {{/each}}    
+  </div>
+</template>
+
+<template name="answer">
+  <div class="answer">
+   {{text}}
   </div>
 </template>

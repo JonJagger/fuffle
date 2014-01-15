@@ -74,9 +74,9 @@ Template.home.events({"keyup #qid":function() {
 // - - - - - - - - - - - - - - - - - - - - - - - - 
 
 Template.home.events({"click #answer":function () {
-  var answer = { qid:home.qid(), answer:"127" };
+  var answer = { qid:home.qid(), text:"127" };
   Answers.insert(answer);
-  home.answer().disable();
+  //home.answer().disable();  // TEMP... TO SEE MULTIPLE
   home.reveal().enable();
   // jQuery dialog. Modal.
   // if answered
@@ -87,5 +87,5 @@ Template.home.events({"click #answer":function () {
 // - - - - - - - - - - - - - - - - - - - - - - - - 
 
 Template.home.events({"click #reveal":function () {
-  //window.open("reveal/" + home.qid (), "_blank");  
+  window.open("reveal/" + home.qid(), "_blank");  
 }});

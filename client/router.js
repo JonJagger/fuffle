@@ -4,7 +4,7 @@ Router.map(function() {
   
   this.route('reveal', {
     path: '/reveal/:qid',
-    data: function() { return { gid: this.params.gid }}
+    data: function() { return { qid: this.params.qid }}
   });
   
 });
