@@ -1,4 +1,28 @@
 
+Router.map(function() { 
+ 
+  this.route('home', { path: '/' });
+  
+  this.route('home', { path: '/home/:qid',
+    data: function() {
+      return {
+        qid: this.params.qid
+      }
+    }
+  });
+
+  this.route('reveal', { path: '/reveal/:qid',
+    data: function() {
+      return {
+        qid: this.params.qid
+      }
+    }
+  });
+  
+});
+
+//==========================================================
+
 Questions = new Meteor.Collection('questions');
 // Questions.insert({ qid: "138ef8", text: "what is 9 * 6"  });
 
@@ -19,10 +43,7 @@ var enabled = function(button) {
 
 //==========================================================
 
-var home = {
-  question:function() {
-    return enabled($("#question"));
-  },
+var home = {    
   qid:function(arg) {
     if (!arg) {
       return $("#qid").val();
@@ -33,12 +54,8 @@ var home = {
   qtext:function(arg) {
     $("#qtext").val(arg);
   },
-  answer:function() {
-    return enabled($("#answer"));
-  },
-  reveal:function() {
-    return enabled($("#reveal"));
-  }
+  answer:function() { return enabled($("#answer")) },    
+  reveal:function() { return enabled($("#reveal")) }
 };
 
 //==========================================================
