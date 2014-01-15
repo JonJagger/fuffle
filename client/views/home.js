@@ -30,6 +30,9 @@ var home = {
       $("#qid").val(arg);
     }
   },
+  qtext:function(arg) {
+    $("#qtext").val(arg);
+  },
   answer:function() {
     return enabled($("#answer"));
   },
@@ -41,9 +44,10 @@ var home = {
 // - - - - - - - - - - - - - - - - - - - - - - - - 
 
 Template.home.events({"click #question":function () {
-  var question = { qid:newQid(), text:"" };
+  var question = { qid:newQid(), text:"slimed?" };
   Questions.insert(question);
   home.qid(question.qid);
+  home.qtext(question.text);
   home.answer().enable();
   //TODO: jQuery dialog. Modal.
   // if asked
@@ -57,15 +61,13 @@ Template.home.events({"click #question":function () {
 // - - - - - - - - - - - - - - - - - - - - - - - - 
 
 Template.home.events({"keyup #qid":function() {
-  var question = home.question();
-  var answer = home.answer();
-  if (home.qid() === "") {
-    answer.disable();
-  } else if (!Questions.findOne({ qid:home.qid() })) {
-    answer.disable();
+  var question = Questions.findOne({ qid:home.qid() });  
+  if (!question) {
+    home.qtext("");
+    home.answer().disable();
   } else {
-    //TODO: show question text 
-    answer.enable();
+    home.qtext(question.text);
+    home.answer().enable();
   }
 }});
 
