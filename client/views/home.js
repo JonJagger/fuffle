@@ -74,6 +74,10 @@ Template.home.events({"keyup #qid":function() {
 // - - - - - - - - - - - - - - - - - - - - - - - - 
 
 Template.home.events({"click #answer":function () {
+  var answer = { qid:home.qid(), answer:"127" };
+  Answers.insert(answer);
+  home.answer().disable();
+  home.reveal().enable();
   // jQuery dialog. Modal.
   // if answered
   //   home.answer().disable();
