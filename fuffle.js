@@ -58,26 +58,15 @@ if (Meteor.isClient) {
 
   
   Template.answer.readonly = function() {
-    return answered() ? "readonly" : "";
+    return (!asked(this.qid) || answered()) ? "readonly" : "";
   };
   Template.answer.text = function() {
-    if (!asked(this.qid)) {
-      return "";
-    } else if (!answered()) {
-      return answer.instruction;
-    } else {
-      return "";
-    }
+    return (!asked(this.qid) || answered()) ? "" : answer.instruction;
   };
   Template.answer.disabled = function() {
-    var disable = "disabled='disabled'";
-    if (!asked(this.qid)) {
-      return disable;
-    } else if (!answered()) {
-      return "";
-    } else {
-      return disable;      
-    }
+    var yes = "disabled='disabled'";
+    var no = "";
+    return (!asked(this.qid) || answered()) ? yes : no;
   };  
   Template.answer.events({"click .answer input":function () {
     var text = answer.text();
@@ -87,7 +76,7 @@ if (Meteor.isClient) {
       answer.text("");
       answer.button().disable();
     }
-    Session.set("answered", "true");
+    Session.set("answered", true);
   }});
   
   Template.countInfo.text = function() {
@@ -139,7 +128,7 @@ var answer = {
 };
 
 var answered = function() {
-  return Session.get("answered") === "true";
+  return Session.get("answered") === true;
 };
 
 var plural = function(word,n) {
