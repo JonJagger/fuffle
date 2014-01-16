@@ -5,11 +5,11 @@
       {{> question}}
       {{> answer}}
       {{#each answers}}
-        <tr class="see-all>
+        <tr class="see-all">
           <td>
+            <textarea readonly>{{text}}</textarea>          
           </td>
           <td>
-            <textarea>{{text}}</textarea>          
           </td>
         </tr>        
       {{/each}}

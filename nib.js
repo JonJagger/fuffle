@@ -32,10 +32,8 @@ var enabled = function(button) {
 //==========================================================
 
 var question = {    
-  text:function(arg) {
-    var node = $(".question #text"); 
-    if (arg !== undefined) { node.val(arg); }
-    return node.val();
+  text:function() {
+    return $(".question #text").val();
   },
   button:function() {
     return enabled($(".question #button"))
@@ -61,54 +59,47 @@ var valid = function(qid) {
 
 if (Meteor.isClient) {
     
-  Template.question.disabled = function() {
-    return valid(this.qid) ? "disabled='disabled'" : ""; 
-  };
-  Template.answer.disabled = function() {
-    return valid(this.qid) ? "" : "disabled='disabled'";
-  };
-  
   Template.question.readonly = function() {
     return valid(this.qid) ? "readonly" : "";     
   };
-  Template.answer.readonly = function() {
-    return valid(this.qid) ? "" : "readonly";         
-  };
-  
-  Template.question.events({"click .question #button":function () {  
-    var one = { qid:Random.hexString(6), text:question.text() };
-    Questions.insert(one);
-    window.open('/' + one.qid);
-  }});
-  
   Template.question.text = function() {    
     var one = Questions.findOne({ qid:this.qid });
     return one ? one.text : "";
   };
-  
+  Template.question.disabled = function() {
+    return (valid(this.qid) || question.text() !== "") ? "disabled='disabled'" : ""; 
+  };
   Template.question.events({"keyup .question #text":function() {
-    if (question.text() !== "" && !valid(this.qid)) {
+    if (!valid(this.qid) && question.text() !== "") {
       question.button().enable();
     } else {
       question.button().disable();
     }
   }});
+  Template.question.events({"click .question #button":function () {  
+    var one = { qid:Random.hexString(6), text:question.text() };
+    Questions.insert(one);
+    window.open('/' + one.qid);
+  }});
+
   
-  
+  Template.answer.readonly = function() {
+    return valid(this.qid) ? "" : "readonly";         
+  };
+  Template.answer.disabled = function() {
+    return valid(this.qid) ? "" : "disabled='disabled'";
+  };  
   Template.answer.events({"click .answer #button":function () {
     var text = answer.text();
     if (text !== "") {
-      var one = { qid:question.id(), text:text };
+      var one = { qid:this.qid, text:text };
       Answers.insert(one);
       answer.text("");
     }
-    alert("reveal all answers");
   }});
  
   Template.nib.answers = function() {
-    var x = Answers.find({ qid: this.qid });
-    //alert("seeAll.answers:" + this.qid + ":" + EJSON.stringify(x));
-    return x;
+    return Answers.find({ qid: this.qid });
   };
   
 }
