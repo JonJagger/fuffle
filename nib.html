@@ -1,16 +1,13 @@
 
 <template name="nib">
   <div class="nib">
-    <table align="center" cellspacing="1" cellpadding="1">
+    <table>
       {{> question}}
       {{> answer}}
       {{#each allAnswers}}
         <tr class="one-answer">
-          <td>
-            <textarea readonly>{{text}}</textarea>          
-          </td>
-          <td>
-          </td>
+          <td><textarea readonly>{{text}}</textarea></td>
+          <td></td>
         </tr>      
       {{/each}}
     </table>
@@ -19,22 +16,14 @@
 
 <template name="question">
   <tr class="question">
-    <td>
-      <textarea {{readonly}}>{{text}}</textarea>
-    </td>
-    <td align="left">
-      <input type="button" value="question" {{disabled}}>
-    </td>          
+    <td><textarea {{readonly}}>{{text}}</textarea></td>
+    <td><input type="button" value="question" {{disabled}}></td>          
   </tr>
 </template>
 
 <template name="answer">
   <tr class="answer">
-    <td>
-      <textarea {{readonly}}></textarea>
-    </td>
-    <td align="left">
-      <input type="button" value="answer" {{disabled}}>
-    </td>
+    <td><textarea {{readonly}}></textarea></td>
+    <td><input type="button" value="answer" {{disabled}}></td>
   </tr>
 </template>

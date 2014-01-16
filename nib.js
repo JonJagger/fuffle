@@ -1,23 +1,16 @@
 
 Router.map(function() { 
- 
   this.route('nib', { path: '/' });  
-
   this.route('nib', { path: '/:qid',
     data: function() { return { qid: this.params.qid } }
   });
-
 });
 
-//==========================================================
-
 Questions = new Meteor.Collection('questions');
-// Questions.insert({ qid:"138ef8", text:"what is 9 * 6"  });
+// Questions.insert({ qid:"138ef8", text:"what is 9 * 6" });
 
 Answers = new Meteor.Collection('answers');
-// Answers.insert({ qid:"138ef8", text:"42"  });
-
-//==========================================================
+// Answers.insert({ qid:"138ef8", text:"42" });
 
 var enabled = function(button) {
   button.enable = function() {
@@ -28,8 +21,6 @@ var enabled = function(button) {
   };
   return button;
 };
-
-//==========================================================
 
 var question = {    
   text:function() {
@@ -91,8 +82,8 @@ if (Meteor.isClient) {
   };  
   Template.answer.events({"click .answer input":function () {
     var text = answer.text();
+    var one = { qid:this.qid, text:text };
     if (text !== "") {
-      var one = { qid:this.qid, text:text };
       Answers.insert(one);
       answer.text("");
       answer.button().disable();
