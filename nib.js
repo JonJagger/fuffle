@@ -32,11 +32,6 @@ var enabled = function(button) {
 //==========================================================
 
 var question = {    
-  id:function(arg) {
-    var node = $(".question #id"); 
-    if (arg) { node.val(arg); }
-    return node.val();
-  },
   text:function(arg) {
     var node = $(".question #text"); 
     if (arg !== undefined) { node.val(arg); }
@@ -55,12 +50,36 @@ var answer = {
   },
   button:function() {
     return enabled($(".answer #button"))
-  },    
+  } 
+};
+
+var valid = function(qid) {
+  return Questions.findOne({ qid:qid });
 };
 
 //==========================================================
 
 if (Meteor.isClient) {
+    
+  Template.question.disabled = function() {
+    return valid(this.qid) ? "disabled='disabled'" : ""; 
+  };
+  Template.answer.disabled = function() {
+    return valid(this.qid) ? "" : "disabled='disabled'";
+  };
+  
+  Template.question.readonly = function() {
+    return valid(this.qid) ? "readonly" : "";     
+  };
+  Template.answer.readonly = function() {
+    return valid(this.qid) ? "" : "readonly";         
+  };
+  
+  Template.question.events({"click .question #button":function () {  
+    var one = { qid:Random.hexString(6), text:question.text() };
+    Questions.insert(one);
+    window.open('/' + one.qid);
+  }});
   
   Template.question.text = function() {    
     var one = Questions.findOne({ qid:this.qid });
@@ -68,35 +87,13 @@ if (Meteor.isClient) {
   };
   
   Template.question.events({"keyup .question #text":function() {
-    if (question.text() !== "") {
+    if (question.text() !== "" && !valid(this.qid)) {
       question.button().enable();
     } else {
       question.button().disable();
     }
   }});
   
-  Template.question.events({"click .question #button":function () {  
-    var one = { qid:Random.hexString(6), text:question.text() };
-    Questions.insert(one);
-    question.id(one.qid);
-    answer.button().enable();
-  }});
-  
-  Template.question.events({"keyup .question #id":function() {
-    var one = Questions.findOne({ qid:question.id() });    
-    if (!one) {
-      question.text("");
-      answer.button().disable();
-    } else {
-      question.text(one.text);
-      answer.button().enable();
-    }
-  }});
-  
-  Template.answer.disabled = function() {
-    return Questions.findOne({ qid:this.qid }) ?
-      "" : "disabled='disabled'";
-  };
   
   Template.answer.events({"click .answer #button":function () {
     var text = answer.text();
@@ -107,5 +104,11 @@ if (Meteor.isClient) {
     }
     alert("reveal all answers");
   }});
+ 
+  Template.nib.answers = function() {
+    var x = Answers.find({ qid: this.qid });
+    //alert("seeAll.answers:" + this.qid + ":" + EJSON.stringify(x));
+    return x;
+  };
   
 }
