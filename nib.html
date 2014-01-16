@@ -2,69 +2,43 @@
 <template name="home">
   <div class="home">
     <table align="center" cellspacing="0" cellpadding="0">
-      <tr align="center">
-        <td>
-          <input type="button" value="question" id="question">
-        </td>          
-      </tr>
-      <tr align="center">
-        <td>{{> downArrow}}</td>
-      </tr>
-      <tr align="center">
-        <td><input type="text" id="qid" value="{{qid}}"></td>
-      </tr>
-      <tr align="center">
-        <td><textarea id="qtext" readonly>{{qtext}}</textarea></td>
-      </tr>      
-      <tr align="center">
-        <td>{{> upArrow}}</td>
-      </tr>
-      <tr align="center">
-        <td>
-          {{#if validQid }}
-            <input type="button" value="answer" id="answer">
-          {{else}}
-            <input type="button" value="answer" id="answer" disabled="disabled">
-          {{/if}}
-        </td>
-      </tr>
-      <!-- TODO: number of answers so far here -->
-      <tr align="center">
-        <td>
-          <input type="button" value="reveal" id="reveal" disabled="disabled">
-        </td>
-      </tr>
+      {{> question}}
+      {{> answer}}
+      <!-- other answers will go here -->
     </table>
   </div>
 </template>
 
-<template name="downArrow">
-  <div class="arrow">&darr;</div>
-</template>
-
-<template name="upArrow">
-  <div class="arrow">&uarr;</div>
-</template>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-<template name="reveal">
-  <div class="reveal">
-    {{> question}}
-    {{#each answers}}
-      {{> answer}}
-    {{/each}}    
-  </div>
-</template>
-
 <template name="question">
-  <div class="question">
-    {{text}}
-  </div>
+  <tr class="question">
+    <td><input type="text" id="id" value="{{qid}}"></td>
+    <td></td>
+  </tr>
+  <tr class="question">
+    <td align="right">
+      <input type="button" value="question" id="button" disabled="disabled">
+    </td>          
+    <td>
+      <textarea id="text">{{text}}</textarea>
+    </td>
+  </tr>
 </template>
 
 <template name="answer">
-  <div class="answer">
-   {{text}}
-  </div>
+  <tr align="center" class="answer">
+    <td align="right">
+      {{#if validQid }}
+        <input type="button" value="answer" id="button">
+      {{else}}
+        <input type="button" value="answer" id="button" disabled="disabled">
+      {{/if}}
+    </td>
+    <td>
+      {{#if validQid }}
+        <textarea id="text"></textarea>
+      {{else}}
+        <textarea id="text" readonly></textarea>
+      {{/if}}
+    </td>
+  </tr>
 </template>

@@ -1,24 +1,12 @@
 
 Router.map(function() { 
  
-  this.route('home', { path: '/' });
-  
-  this.route('home', { path: '/home/:qid',
-    data: function() {
-      return {
-        qid: this.params.qid
-      }
-    }
+  this.route('home', { path: '/' });  
+
+  this.route('home', { path: '/:qid',
+    data: function() { return { qid: this.params.qid } }
   });
 
-  this.route('reveal', { path: '/reveal/:qid',
-    data: function() {
-      return {
-        qid: this.params.qid
-      }
-    }
-  });
-  
 });
 
 //==========================================================
@@ -43,128 +31,80 @@ var enabled = function(button) {
 
 //==========================================================
 
-var home = {    
-  qid:function(arg) {
-    if (!arg) {
-      return $("#qid").val();
-    } else {
-      $("#qid").val(arg);
-    }
+var question = {    
+  id:function(arg) {
+    var node = $(".question #id"); 
+    if (arg) { node.val(arg); }
+    return node.val();
   },
-  qtext:function(arg) {
-    $("#qtext").val(arg);
+  text:function(arg) {
+    var node = $(".question #text"); 
+    if (arg !== undefined) { node.val(arg); }
+    return node.val();
   },
-  answer:function() { return enabled($("#answer")) },    
-  reveal:function() { return enabled($("#reveal")) }
+  button:function() {
+    return enabled($(".question #button"))
+  }
+};
+
+var answer = {
+  text:function(arg) {
+    var node = $(".answer #text");
+    if (arg !== undefined) { node.val(arg); }
+    return node.val();
+  },
+  button:function() {
+    return enabled($(".answer #button"))
+  },    
 };
 
 //==========================================================
 
 if (Meteor.isClient) {
   
-  Template.home.qtext = function() {    
-    var question = Questions.findOne({ qid:this.qid });
-    return question ? question.text : "";
-  };
-  
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  
-  Template.home.validQid = function() {    
+  Template.answer.validQid = function() {    
     return Questions.findOne({ qid:this.qid });
   };
   
-  // - - - - - - - - - - - - - - - - - - - - - - - -
+  Template.question.text = function() {    
+    var one = Questions.findOne({ qid:this.qid });
+    return one ? one.text : "";
+  };
   
-  Template.home.events({"click #question":function () {  
-    var buttons = {
-      ok:function() {
-        var question = { qid:Random.hexString(6), text:$("#question_text").val() };
-        Questions.insert(question);
-        home.qid(question.qid);
-        home.qtext(question.text);
-        home.answer().enable();
-        $(this).remove();
-      },
-      cancel:function() {
-        $(this).remove();
-      }
-    };
-    var html = "<textarea id='question_text'>enter it here</textarea>";
-    //TODO: ok button enabled only if question entered
-    var question = $('<div>')
-        .html('<div class="dialog">' + html + '</div>')    
-        .dialog({
-          autoOpen: false,
-          width: "400",
-          height: "230",
-          title: "question",
-          modal: true,
-          buttons: buttons
-        });
-    question.dialog('open');
-    $("#question_text").select();
-  }});
-  
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  
-  Template.home.events({"keyup #qid":function() {
-    var question = Questions.findOne({ qid:home.qid() });    
-    if (!question) {
-      home.qtext("");
-      home.answer().disable();
+  Template.question.events({"keyup .question #text":function() {
+    if (question.text() !== "") {
+      question.button().enable();
     } else {
-      home.qtext(question.text);
-      home.answer().enable();
+      question.button().disable();
     }
   }});
   
-  // - - - - - - - - - - - - - - - - - - - - - - - - 
-  
-  Template.home.events({"click #answer":function () {    
-    var buttons = {
-      ok:function() {
-        var answer = { qid:home.qid(), text:$("#answer_text").val() };
-        Answers.insert(answer);
-        home.answer().disable();
-        home.reveal().enable();
-        $(this).remove();
-      },
-      cancel:function() {
-        $(this).remove();
-      }
-    };
-    var html = "<textarea id='answer_text'>enter it here</textarea>";
-    //TODO: ok button enabled only if question entered
-    var answer = $('<div>')
-        .html('<div class="dialog">' + html + '</div>')    
-        .dialog({
-          autoOpen: false,
-          width: "400",
-          height: "230",
-          title: "answer",
-          modal: true,
-          buttons: buttons
-        });
-    answer.dialog('open');
-    $("#answer_text").select();
+  Template.question.events({"click .question #button":function () {  
+    var one = { qid:Random.hexString(6), text:question.text() };
+    Questions.insert(one);
+    question.id(one.qid);
+    answer.button().enable();
   }});
   
-  // - - - - - - - - - - - - - - - - - - - - - - - - 
-  
-  Template.home.events({"click #reveal":function () {
-    window.open("/reveal/" + home.qid(), "_blank");  
+  Template.question.events({"keyup .question #id":function() {
+    var one = Questions.findOne({ qid:question.id() });    
+    if (!one) {
+      question.text("");
+      answer.button().disable();
+    } else {
+      question.text(one.text);
+      answer.button().enable();
+    }
   }});
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - 
-
-  Template.question.text = function() {
-    return Questions.findOne({ qid:this.qid }).text;
-  };
   
-  // - - - - - - - - - - - - - - - - - - - - - - - -
+  Template.answer.events({"click .answer #button":function () {
+    var text = answer.text();
+    if (text !== "") {
+      var one = { qid:question.id(), text:text };
+      Answers.insert(one);
+      answer.text("");
+    }
+    alert("reveal all answers");
+  }});
   
-  Template.reveal.answers = function() {
-    return Answers.find({ qid:this.qid });
-  };
-
 }

@@ -6,7 +6,14 @@ $ meteor add stylus
 $ meteor add ejson
 $ meteor add random
 $ mrt add iron-router
-$ mrt add jquery-ui
 
 
 $ meteor deploy nib.meteor.com
+
+
+Do as genuine single page.
+Answers are "shown" but until reveal button is pressed
+their CSS display status is none.
+
+Answer-button can be clicked when answer-text is empty.
+This reveals but does not insert the answer-text into the database.
