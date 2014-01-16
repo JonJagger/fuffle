@@ -6,8 +6,8 @@ $ meteor add stylus
 $ meteor add ejson
 $ meteor add random
 $ mrt add iron-router
+$ git remote add origin git@github.com:JonJagger/nib.git
 
-
+$ git push -u origin master
 $ meteor deploy nib.meteor.com
-
 
