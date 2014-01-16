@@ -10,19 +10,8 @@ $ mrt add iron-router
 
 $ meteor deploy nib.meteor.com
 
+question -> same page (not new one)
+Session variable needs qid?
+new question button
+question text initially "type your question here" selected
 
-Do as genuine single page.
-Answers are "shown" but until reveal button is pressed
-their CSS display status is none.
-
-Answer-button can be clicked when answer-text is empty.
-This reveals but does not insert the answer-text into the database.
-
-start empty
-  enter question text
-  press question button
-  id is created
-  page goes to new URL with /id
-  id is never editable
-  
-  

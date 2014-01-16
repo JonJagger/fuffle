@@ -70,7 +70,8 @@ if (Meteor.isClient) {
   Template.question.events({"click .question input":function () {  
     var one = { qid:Random.hexString(6), text:question.text() };
     Questions.insert(one);
-    window.open('/' + one.qid);
+    //window.open('/' + one.qid);
+    window.location.href = '/' + one.qid;
   }});
 
   
