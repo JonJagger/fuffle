@@ -1,6 +1,6 @@
 
-<template name="home">
-  <div class="home">
+<template name="nib">
+  <div class="nib">
     <table align="center" cellspacing="0" cellpadding="0">
       {{> question}}
       {{> answer}}
@@ -27,18 +27,10 @@
 <template name="answer">
   <tr align="center" class="answer">
     <td align="right">
-      {{#if validQid }}
-        <input type="button" value="answer" id="button">
-      {{else}}
-        <input type="button" value="answer" id="button" disabled="disabled">
-      {{/if}}
+      <input type="button" value="answer" id="button" {{disabled}}>
     </td>
     <td>
-      {{#if validQid }}
-        <textarea id="text"></textarea>
-      {{else}}
-        <textarea id="text" readonly></textarea>
-      {{/if}}
+      <textarea id="text"></textarea>
     </td>
   </tr>
 </template>

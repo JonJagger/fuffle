@@ -1,9 +1,9 @@
 
 Router.map(function() { 
  
-  this.route('home', { path: '/' });  
+  this.route('nib', { path: '/' });  
 
-  this.route('home', { path: '/:qid',
+  this.route('nib', { path: '/:qid',
     data: function() { return { qid: this.params.qid } }
   });
 
@@ -12,10 +12,10 @@ Router.map(function() {
 //==========================================================
 
 Questions = new Meteor.Collection('questions');
-// Questions.insert({ qid: "138ef8", text: "what is 9 * 6"  });
+// Questions.insert({ qid:"138ef8", text:"what is 9 * 6"  });
 
 Answers = new Meteor.Collection('answers');
-// Answers.insert({ qid: "138ef8", text: "42"  });
+// Answers.insert({ qid:"138ef8", text:"42"  });
 
 //==========================================================
 
@@ -62,10 +62,6 @@ var answer = {
 
 if (Meteor.isClient) {
   
-  Template.answer.validQid = function() {    
-    return Questions.findOne({ qid:this.qid });
-  };
-  
   Template.question.text = function() {    
     var one = Questions.findOne({ qid:this.qid });
     return one ? one.text : "";
@@ -96,6 +92,11 @@ if (Meteor.isClient) {
       answer.button().enable();
     }
   }});
+  
+  Template.answer.disabled = function() {
+    return Questions.findOne({ qid:this.qid }) ?
+      "" : "disabled='disabled'";
+  };
   
   Template.answer.events({"click .answer #button":function () {
     var text = answer.text();
