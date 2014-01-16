@@ -1,7 +1,7 @@
 
 Router.map(function() { 
-  this.route('nib', { path: '/' });  
-  this.route('nib', { path: '/:qid',
+  this.route('fuffle', { path: '/' });  
+  this.route('fuffle', { path: '/:qid',
     data: function() { return { qid: this.params.qid } }
   });
 });
@@ -17,7 +17,13 @@ Answers = new Meteor.Collection('answers');
 
 if (Meteor.isClient) {
   
-  Template.nib.rendered = function() {
+  Template.fuffle.allAnswers = function() {
+    return Answers.find({ qid: this.qid });
+  };
+  Template.fuffle.display = function() {
+    return answered() ? "block" : "none";
+  };
+  Template.fuffle.rendered = function() {
     if (question.text() === question.instruction) {
       $(".question textarea").select();
     } else {
@@ -92,13 +98,6 @@ if (Meteor.isClient) {
       return "";
     }
   };
-
-  Template.nib.allAnswers = function() {
-    return Answers.find({ qid: this.qid });
-  };
-  Template.nib.display = function() {
-    return answered() ? "block" : "none";
-  };
 }
 
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -117,7 +116,7 @@ var question = {
   text:function() {
     return $(".question textarea").val();
   },
-  instruction:"the question here",
+  instruction:"your question here",
   button:function() {
     return enabled($(".question input"));
   }

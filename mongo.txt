@@ -1,13 +1,14 @@
 $ meteor mongo
 meteor:PRIMARY>show collections
-nibs
+answers
+questions
 system.indexes
-meteor:PRIMARY>db.nibs.find()
-{ "pid" : "a3e454", "size" : "5", "_id" : "Y27J8R3sTnCyAFndA" }
-meteor:PRIMARY>db.nibs.find().count()
+meteor:PRIMARY>db.questions.find()
+{ "qid" : "a3e454", text:"..."  ... }
+meteor:PRIMARY>db.questions.find().count()
 1
-meteor:PRIMARY>db.nibs.remove()
-meteor:PRIMARY>db.nibs.find()
-meteor:PRIMARY>db.nibs.find().count()
+meteor:PRIMARY>db.questions.remove()
+meteor:PRIMARY>db.questions.find()
+meteor:PRIMARY>db.questions.find().count()
 0
 

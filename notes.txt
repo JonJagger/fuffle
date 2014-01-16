@@ -6,8 +6,14 @@ $ meteor add stylus
 $ meteor add ejson
 $ meteor add random
 $ mrt add iron-router
-$ git remote add origin git@github.com:JonJagger/nib.git
+$ git remote add origin git@github.com:JonJagger/fuffle.git
 
 $ git push -u origin master
-$ meteor deploy nib.meteor.com
+$ meteor deploy fuffle.meteor.com
 
+
+s/nib/fuffle/
+push to github as fuffle
+add source hyperlink to github fuffle
+push to github as fuffle
+push to fuffle.meteor.com

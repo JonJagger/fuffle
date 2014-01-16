@@ -1,7 +1,7 @@
-nib  (No Unbiased Feedback)
+fuffle  (Fast Unbiased Feedback)
 ===========================
 A simple Meteor app. 
-Deployed at nib.meteor.com
+Deployed at fuffle.meteor.com
 
 Ask a question.
 Collect answers.
