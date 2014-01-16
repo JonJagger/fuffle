@@ -4,6 +4,7 @@
     <table>
       {{> question}}
       {{> answer}}
+      {{> countInfo}}
       {{#each allAnswers}}
         <tr style="display:{{display}}">
           <td><textarea readonly>{{text}}</textarea></td>
@@ -17,7 +18,7 @@
 <template name="question">
   <tr class="question">
     <td><textarea {{readonly}}>{{text}}</textarea></td>
-    <td><input type="button" value="ask it" {{disabled}}></td>          
+    <td><input type="button" value="ask" {{disabled}}></td>          
   </tr>
 </template>
 
@@ -25,5 +26,12 @@
   <tr class="answer">
     <td><textarea {{readonly}}>{{text}}</textarea></td>
     <td><input type="button" value="answer" {{disabled}}></td>
+  </tr>
+</template>
+
+<template name="countInfo">
+  <tr class="count-info">
+    <td>{{text}}</td>
+    <td></td>
   </tr>
 </template>

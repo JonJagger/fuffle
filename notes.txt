@@ -11,6 +11,3 @@ $ mrt add iron-router
 $ meteor deploy nib.meteor.com
 
 
-when answer is pressed, answer-text becomes readonly
-(new question) button
-
