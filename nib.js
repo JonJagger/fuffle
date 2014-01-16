@@ -33,21 +33,21 @@ var enabled = function(button) {
 
 var question = {    
   text:function() {
-    return $(".question #text").val();
+    return $(".question textarea").val();
   },
   button:function() {
-    return enabled($(".question #button"))
+    return enabled($(".question input"))
   }
 };
 
 var answer = {
   text:function(arg) {
-    var node = $(".answer #text");
+    var node = $(".answer textarea");
     if (arg !== undefined) { node.val(arg); }
     return node.val();
   },
   button:function() {
-    return enabled($(".answer #button"))
+    return enabled($(".answer input"))
   } 
 };
 
@@ -69,14 +69,14 @@ if (Meteor.isClient) {
   Template.question.disabled = function() {
     return (valid(this.qid) || question.text() !== "") ? "disabled='disabled'" : ""; 
   };
-  Template.question.events({"keyup .question #text":function() {
+  Template.question.events({"keyup .question textarea":function() {
     if (!valid(this.qid) && question.text() !== "") {
       question.button().enable();
     } else {
       question.button().disable();
     }
   }});
-  Template.question.events({"click .question #button":function () {  
+  Template.question.events({"click .question input":function () {  
     var one = { qid:Random.hexString(6), text:question.text() };
     Questions.insert(one);
     window.open('/' + one.qid);
@@ -89,17 +89,18 @@ if (Meteor.isClient) {
   Template.answer.disabled = function() {
     return valid(this.qid) ? "" : "disabled='disabled'";
   };  
-  Template.answer.events({"click .answer #button":function () {
+  Template.answer.events({"click .answer input":function () {
     var text = answer.text();
     if (text !== "") {
       var one = { qid:this.qid, text:text };
       Answers.insert(one);
       answer.text("");
+      answer.button().disable();
     }
+    $(".one-answer").show();
   }});
  
-  Template.nib.answers = function() {
+  Template.nib.allAnswers = function() {
     return Answers.find({ qid: this.qid });
   };
-  
 }
