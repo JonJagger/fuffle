@@ -17,13 +17,13 @@
 <template name="question">
   <tr class="question">
     <td><textarea {{readonly}}>{{text}}</textarea></td>
-    <td><input type="button" value="question" {{disabled}}></td>          
+    <td><input type="button" value="ask it" {{disabled}}></td>          
   </tr>
 </template>
 
 <template name="answer">
   <tr class="answer">
-    <td><textarea {{readonly}}></textarea></td>
+    <td><textarea {{readonly}}>{{text}}</textarea></td>
     <td><input type="button" value="answer" {{disabled}}></td>
   </tr>
 </template>

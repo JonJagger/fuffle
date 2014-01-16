@@ -11,51 +11,26 @@ Questions = new Meteor.Collection('questions');
 
 Answers = new Meteor.Collection('answers');
 // Answers.insert({ qid:"138ef8", text:"42" });
+// Answers.insert({ qid:"138ef8", text:"54" });
 
-var enabled = function(button) {
-  button.enable = function() {
-    this.removeAttr("disabled");
-  };
-  button.disable = function() {
-    this.attr("disabled", "disabled");
-  };
-  return button;
-};
-
-var question = {    
-  text:function() {
-    return $(".question textarea").val();
-  },
-  button:function() {
-    return enabled($(".question input"));
-  }
-};
-
-var answer = {
-  text:function(arg) {
-    var node = $(".answer textarea");
-    if (arg !== undefined) { node.val(arg); }
-    return node.val();
-  },
-  button:function() {
-    return enabled($(".answer input"));
-  } 
-};
-
-var valid = function(qid) {
-  return Questions.findOne({ qid:qid });
-};
-
-//==========================================================
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 if (Meteor.isClient) {
-
+  
+  Template.nib.rendered = function() {
+    if (question.text() === question.instruction) {
+      $(".question textarea").select();
+    } else {
+      $(".answer textarea").select();      
+    }
+  };
+  
   Template.question.readonly = function() {
     return valid(this.qid) ? "readonly" : "";     
   };
   Template.question.text = function() {    
     var one = Questions.findOne({ qid:this.qid });
-    return one ? one.text : "";
+    return one ? one.text : question.instruction;
   };
   Template.question.disabled = function() {
     return (valid(this.qid) || question.text() !== "") ? "disabled='disabled'" : ""; 
@@ -70,13 +45,21 @@ if (Meteor.isClient) {
   Template.question.events({"click .question input":function () {  
     var one = { qid:Random.hexString(6), text:question.text() };
     Questions.insert(one);
-    //window.open('/' + one.qid);
     window.location.href = '/' + one.qid;
   }});
 
   
   Template.answer.readonly = function() {
-    return valid(this.qid) ? "" : "readonly";         
+    return answered() ? "readonly" : "";
+  };
+  Template.answer.text = function() {
+    if (!valid(this.qid)) {
+      return "";
+    } else if (answered()) {
+      return "";
+    } else {
+      return answer.instruction;
+    }
   };
   Template.answer.disabled = function() {
     return valid(this.qid) ? "" : "disabled='disabled'";
@@ -96,6 +79,49 @@ if (Meteor.isClient) {
     return Answers.find({ qid: this.qid });
   };
   Template.nib.display = function() {
-    return Session.get("answered") === "true" ? "block" : "none";
+    return answered() ? "block" : "none";
   };
 }
+
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+var enabled = function(button) {
+  button.enable = function() {
+    this.removeAttr("disabled");
+  };
+  button.disable = function() {
+    this.attr("disabled", "disabled");
+  };
+  return button;
+};
+
+var question = {    
+  text:function() {
+    return $(".question textarea").val();
+  },
+  instruction:"type the question here",
+  button:function() {
+    return enabled($(".question input"));
+  }
+};
+
+var answer = {
+  text:function(arg) {
+    var node = $(".answer textarea");
+    if (arg !== undefined) { node.val(arg); }
+    return node.val();
+  },
+  instruction:"type your answer here",  
+  button:function() {
+    return enabled($(".answer input"));
+  } 
+};
+
+var answered = function() {
+  return Session.get("answered") === "true";
+};
+
+var valid = function(qid) {
+  return Questions.findOne({ qid:qid });
+};
+

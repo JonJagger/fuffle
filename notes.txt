@@ -10,8 +10,7 @@ $ mrt add iron-router
 
 $ meteor deploy nib.meteor.com
 
-question -> same page (not new one)
-Session variable needs qid?
-new question button
-question text initially "type your question here" selected
+
+when answer is pressed, answer-text becomes readonly
+(new question) button
 
