@@ -49,7 +49,11 @@ var valid = function(qid) {
 //==========================================================
 
 if (Meteor.isClient) {
-    
+
+  Meteor.startup(function() {
+    $(".one-answer").hide();    
+  });
+
   Template.question.readonly = function() {
     return valid(this.qid) ? "readonly" : "";     
   };
@@ -87,11 +91,14 @@ if (Meteor.isClient) {
       Answers.insert(one);
       answer.text("");
       answer.button().disable();
+      Session.set("answered", "true");
     }
-    $(".one-answer").show();
   }});
  
   Template.nib.allAnswers = function() {
     return Answers.find({ qid: this.qid });
+  };
+  Template.nib.display = function() {
+    return Session.get("answered") === "true" ? "block" : "none";
   };
 }
