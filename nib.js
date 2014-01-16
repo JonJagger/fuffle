@@ -27,7 +27,7 @@ var question = {
     return $(".question textarea").val();
   },
   button:function() {
-    return enabled($(".question input"))
+    return enabled($(".question input"));
   }
 };
 
@@ -38,7 +38,7 @@ var answer = {
     return node.val();
   },
   button:function() {
-    return enabled($(".answer input"))
+    return enabled($(".answer input"));
   } 
 };
 
@@ -49,10 +49,6 @@ var valid = function(qid) {
 //==========================================================
 
 if (Meteor.isClient) {
-
-  Meteor.startup(function() {
-    $(".one-answer").hide();    
-  });
 
   Template.question.readonly = function() {
     return valid(this.qid) ? "readonly" : "";     
@@ -91,8 +87,8 @@ if (Meteor.isClient) {
       Answers.insert(one);
       answer.text("");
       answer.button().disable();
-      Session.set("answered", "true");
     }
+    Session.set("answered", "true");
   }});
  
   Template.nib.allAnswers = function() {
