@@ -1,24 +1,55 @@
 
-<template name="fuffle">
-  <div class="fuffle">
-    {{> name}}
-    {{#if noQuestion}}
-      {{> getQuestion}}
-    {{/if}}    
-    {{#if notAnswered}}
-      {{> showQuestion}}    
-      {{> getAnswer}}
-    {{/if}}    
-    {{#if answered}}
-      {{> showQuestion}}    
-      {{> showAll}}
-    {{/if}}
-    {{> source}}
+<template name="ask">  
+  <div class="ask">
+    {{> info}}
+    <table>
+      <tr>
+        <td><textarea>{{instruction}}</textarea></td>
+        <td>?</td>
+        <td><input type="button" value="ask"></td>
+      </tr>
+    </table>
   </div>
 </template>
 
-<template name="name">
-  <div class="name">
+<template name="reply">
+  <div class="reply">
+    {{> info}}
+    {{> question}}    
+    <table>
+      <tr>
+        <td><textarea>{{instruction}}</textarea></td>
+        <td><input type="button" value="reply"></td>
+        <td class="count">{{count}}</td>      
+      </tr>
+    </table>    
+  </div>
+</template>
+
+<template name="show">
+  <div class="show">
+    {{> info}}
+    {{> question}}    
+    <table>
+      {{#each answers}}
+        <tr>
+          <td class="answer">{{text}}</td>
+        </tr>
+      {{/each}}
+    </table>    
+  </div>
+</template>
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+
+<template name="question">
+  <div class="question">
+    {{text}}?    
+  </div>
+</template>
+
+<template name="info">
+  <div class="app-name">
     Fast<br>
     Unbiased<br>
     Feedback<br>
@@ -26,56 +57,7 @@
     L<br>
     E<br>
   </div>
-</template>
-
-<template name="getQuestion">
-  <table class="get-question">
-    <tr>
-      <td><textarea>{{instruction}}</textarea></td>
-      <td>?</td>
-      <td><input type="button" value="ask it"></td>
-    </tr>
-  </table>
-</template>
-
-<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::: -->
-
-<template name="showQuestion">
-  <table class="show-question">
-    <tr>
-      <td>{{text}}?</td>
-    </tr>
-  </table>  
-</template>
-
-<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::: -->
-
-<template name="getAnswer">
-  <table class="get-answer">
-    <tr>
-      <td><textarea>{{instruction}}</textarea></td>
-      <td><input type="button" value="give it"></td>
-      <td class="answer-count">{{count}}</td>      
-    </tr>
-  </table>
-</template>
-
-<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::: -->
-
-<template name="showAll">
-  <table class="show-all">
-    {{#each answers}}
-      <tr>
-        <td class="answer">{{text}}</td>
-      </tr>
-    {{/each}}
-  </table>
-</template>
-
-<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::: -->
-
-<template name="source">
-  <div class="source">
+  <div class="source-link">
     <a href="https://github.com/JonJagger/fuffle">source</a>
   </div>
 </template>

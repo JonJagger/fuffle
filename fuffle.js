@@ -1,85 +1,71 @@
 
 Router.map(function() { 
-  this.route('fuffle', { path: '/' });  
-  this.route('fuffle', { path: '/:qid',
+  this.route('ask', { path: '/' });  
+  this.route('reply', { path: '/reply/:qid',
     data: function() { return { qid: this.params.qid } }
   });
+  this.route('show', { path: '/show/:qid',
+    data: function() { return { qid: this.params.qid } }
+  });  
 });
 
 Questions = new Meteor.Collection('questions');
 Answers   = new Meteor.Collection('answers');
 
 if (Meteor.isClient) {
-  
-  function asked(qid) {
-    return Questions.findOne({ qid:qid });
+
+  Template.ask.instruction = function() {
+    return ask.instruction;
   };
-  function answered() {
-    return Session.get("answered") === true;
-  };
-  
-  Template.fuffle.noQuestion = function() {
-    return !asked(this.qid);
-  };
-  Template.fuffle.notAnswered = function() {
-    return asked(this.qid) && !answered();
-  };
-  Template.fuffle.answered = function() {
-    return asked(this.qid) && answered();
-  };
-    
-  Template.getQuestion.instruction = function() {
-    return getQuestion.instruction;
-  };
-  Template.getQuestion.events({"keyup .get-question textarea":function() {
-    getQuestion.button().enableIf(getQuestion.text() !== "");
+  Template.ask.events({"keyup .ask textarea":function() {
+    ask.button().enableIf(ask.text() !== "");
   }});
-  Template.getQuestion.events({"click .get-question input":function () {
+  Template.ask.rendered = function() {
+    $(".ask textarea").select();
+  };
+  Template.ask.events({"click .ask input":function () {
     var qid = Random.hexString(6);
-    Questions.insert({ qid:qid, text:getQuestion.text() });
-    window.location.href = '/' + qid;
+    Questions.insert({ qid:qid, text:ask.text() });
+    Router.go('/reply/' + qid);
   }});
-  Template.getQuestion.rendered = function() {
-    $(".get-question textarea").select();
+    
+  Template.reply.instruction = function() {
+    return reply.instruction;
   };
-  
-  Template.showQuestion.text = function() {    
-    return Questions.findOne({ qid:this.qid }).text;
-  };
-  
-  Template.getAnswer.instruction = function() {
-    return getAnswer.instruction;
-  };
-  Template.getAnswer.count = function() {
-    var n = Answers.find({qid:this.qid}).count();
-    return n + " given";    
+  Template.reply.count = function() {
+    return Answers.find({qid:this.qid}).count() + " given";
   };  
-  Template.getAnswer.events({"click .get-answer input":function () {
-    var text = getAnswer.text();
-    if (text !== getAnswer.instruction && text !== "") {
+  Template.reply.rendered = function() {
+    $(".reply textarea").select();
+  };
+  Template.reply.events({"click .reply input":function () {
+    var text = reply.text();
+    if (text !== reply.instruction && text !== "") {
       Answers.insert({ qid:this.qid, text:text });
     }
-    Session.set("answered", true);
+    Router.go('/show/' + this.qid);
   }});
-  Template.getAnswer.rendered = function() {
-    $(".get-answer textarea").select();
+    
+  Template.question.text = function() {
+    var question = Questions.findOne({ qid:this.qid });
+    return question ? question.text : "";
   };
     
-  Template.showAll.answers = function() {
+  Template.show.answers = function() {
     return Answers.find({ qid: this.qid });
   };
 
 }
 
-var getQuestion = {    
+var ask = {    
   instruction:"your question",
-  text:function() { return $(".get-question textarea").val(); },
-  button:function() { return enabled($(".get-question input")); }
+  text:function() { return $(".ask textarea").val(); },
+  button:function() { return enabled($(".ask input")); }
 };
 
-var getAnswer = {
+var reply = {
   instruction:"your answer",
-  text:function() { return $(".get-answer textarea").val(); }
+  text:function() { return $(".reply textarea").val(); }
 };
 
 var enabled = function(button) {
