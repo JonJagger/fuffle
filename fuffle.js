@@ -43,7 +43,7 @@ if (Meteor.isClient) {
   Template.question.text = function() {
     var question = Questions.findOne({ qid:this.qid });
     var text = question ? question.text : "";
-    if (text.indexOf("?", text.length - "?".length) === -1)
+    if (text.charAt(text.length - 1) !== "?")
       text += "?";
     return text;
   };
