@@ -9,8 +9,8 @@ Everyone who wants to give an answer goes to this URL.
 Each person types in their answer and clicks the button.
 Each person then sees everyone's answers.
 
-Seeing everyone's answers only <em>after</em> answering yourself
-helps to avoid initial bias (<a href="http://en.wikipedia.org/wiki/Anchoring">Anchoring</a>).
+Seeing everyone's answers only *after* answering yourself
+helps to avoid initial bias (http://en.wikipedia.org/wiki/Anchoring).
 
 If you don't type in an answer you can still click the button.
 You'll still see everyone else's answers. This should be useful
