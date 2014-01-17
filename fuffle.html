@@ -4,22 +4,24 @@
     {{> info}}
     <table>
       <tr>
-        <td><textarea>{{instruction}}</textarea></td>
-        <td>?</td>
+        <td><textarea>question</textarea></td>
+        <td>&nbsp;</td>
         <td><input type="button" value="ask"></td>
       </tr>
     </table>
   </div>
 </template>
 
-<template name="reply">
-  <div class="reply">
+<template name="answer">
+  <div class="answer">
     {{> info}}
     {{> question}}    
     <table>
       <tr>
-        <td><textarea>{{instruction}}</textarea></td>
-        <td><input type="button" value="reply"></td>
+        <td><textarea></textarea></td>
+        <td>&nbsp;</td>
+        <td><input type="button" value="answer"></td>
+        <td>&nbsp;</td>
         <td class="count">{{count}}</td>      
       </tr>
     </table>    
@@ -33,7 +35,7 @@
     <table>
       {{#each answers}}
         <tr>
-          <td class="answer">{{text}}</td>
+          <td class="one-answer">{{text}}</td>
         </tr>
       {{/each}}
     </table>    
@@ -44,7 +46,7 @@
 
 <template name="question">
   <div class="question">
-    {{text}}?    
+    {{text}}
   </div>
 </template>
 
