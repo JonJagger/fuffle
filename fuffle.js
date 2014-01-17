@@ -65,7 +65,7 @@ if (Meteor.isClient) {
     $(".get-answer textarea").select();
   };
     
-  Template.showAllAnswers.allAnswers = function() {
+  Template.showAll.answers = function() {
     return Answers.find({ qid: this.qid });
   };
 
