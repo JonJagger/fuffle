@@ -14,7 +14,6 @@ $ meteor deploy fuffle.meteor.com
 
 CSS TLC
 answers need their own overflow-y
-add source hyperlink to github fuffle
 if answers are numeric show n/mean/range/std-dev
 make feedback link to my Fellers-Walk rawgithub page
 make unbiased a link to initial-base page (wikipedia?)
