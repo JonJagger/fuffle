@@ -13,6 +13,4 @@ $ git push -u origin master
 $ meteor deploy fuffle.meteor.com
 
 add source hyperlink to github fuffle
-don't show answer textarea+button at all until question asked
-when asking for answer show question in plain text (not inside textarea)
 if answers are numeric show n/mean/range/std-dev

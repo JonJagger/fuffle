@@ -7,83 +7,82 @@ Router.map(function() {
 });
 
 Questions = new Meteor.Collection('questions');
-// Questions.insert({ qid:"138ef8", text:"what is 9 * 6" });
-
-Answers = new Meteor.Collection('answers');
-// Answers.insert({ qid:"138ef8", text:"42" });
-// Answers.insert({ qid:"138ef8", text:"54" });
-
-//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Answers   = new Meteor.Collection('answers');
 
 if (Meteor.isClient) {
   
-  Template.fuffle.askedQuestion = function() {
-    return asked(this.qid);
+  function asked(qid) {
+    return Questions.findOne({ qid:qid });
   };
-  Template.fuffle.notAskedQuestion = function() {
-    return !asked(this.qid);
-  };
-    
-  Template.askQuestion.instruction = function() {
-    return askQuestion.instruction;
-  };
-  Template.askQuestion.events({"keyup .ask-question textarea":function() {
-    askQuestion.button().enableIf(askQuestion.text() !== "");
-  }});
-  Template.askQuestion.events({"click .ask-question input":function () {
-    var qid = Random.hexString(6);
-    Questions.insert({ qid:qid, text:askQuestion.text() });
-    window.location.href = '/' + qid;
-  }});
-  Template.askQuestion.rendered = function() {
-    $(".ask-question textarea").select();
+  function answered() {
+    return Session.get("answered") === true;
   };
   
-  Template.question.text = function() {    
+  Template.fuffle.noQuestion = function() {
+    return !asked(this.qid);
+  };
+  Template.fuffle.notAnswered = function() {
+    return asked(this.qid) && !answered();
+  };
+  Template.fuffle.answered = function() {
+    return asked(this.qid) && answered();
+  };
+    
+  Template.getQuestion.instruction = function() {
+    return getQuestion.instruction;
+  };
+  Template.getQuestion.events({"keyup .get-question textarea":function() {
+    getQuestion.button().enableIf(getQuestion.text() !== "");
+  }});
+  Template.getQuestion.events({"click .get-question input":function () {
+    var qid = Random.hexString(6);
+    Questions.insert({ qid:qid, text:getQuestion.text() });
+    window.location.href = '/' + qid;
+  }});
+  Template.getQuestion.rendered = function() {
+    $(".get-question textarea").select();
+  };
+  
+  Template.showQuestion.text = function() {    
     return Questions.findOne({ qid:this.qid }).text;
   };
   
-  Template.answer.text = function() {
-    return answered() ? answer.text() : answer.instruction;
+  Template.getAnswer.instruction = function() {
+    return getAnswer.instruction;
   };
-  Template.answer.isTextReadonly = function() {
-    return answered() ? "readonly" : "";
-  };
-  Template.answer.isButtonDisabled = function() {
-    return answered() ? "disabled='disabled'" : "";
-  };
-  Template.answer.events({"click .answer input":function () {
-    var text = answer.text();
-    if (text !== answer.instruction && text !== "") {
+  Template.getAnswer.events({"click .get-answer input":function () {
+    var text = getAnswer.text();
+    if (text !== getAnswer.instruction && text !== "") {
       Answers.insert({ qid:this.qid, text:text });
     }
     Session.set("answered", true);
   }});
-  Template.answer.rendered = function() {
-    if (answer.text() === answer.instruction) {
-      $(".answer textarea").select();
-    }
+  Template.getAnswer.rendered = function() {
+    $(".get-answer textarea").select();
   };
-  
-  Template.countInfo.text = function() {
+    
+  Template.showAnswerCount.text = function() {
+    function plural(word,n) { return word + (n !== 1 ? "s" : "");  };    
     var n = Answers.find({qid:this.qid}).count();
-    if (asked(this.qid)) {      
-      return n + " " + plural("answer",n) + "...";
-    } else {
-      return "";
-    }
+    return n + " " + plural("answer",n) + "...";
   };
-  
-  Template.answerQuestion.allAnswers = function() {
+    
+  Template.showAllAnswers.allAnswers = function() {
     return Answers.find({ qid: this.qid });
-  };
-  Template.answerQuestion.display = function() {
-    return answered() ? "block" : "none";
   };
 
 }
 
-//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+var getQuestion = {    
+  instruction:"your question",
+  text:function() { return $(".get-question textarea").val(); },
+  button:function() { return enabled($(".get-question input")); }
+};
+
+var getAnswer = {
+  instruction:"your answer",
+  text:function() { return $(".get-answer textarea").val(); }
+};
 
 var enabled = function(button) {
   button.enableIf = function(condition) {
@@ -96,25 +95,3 @@ var enabled = function(button) {
   return button;
 };
 
-var askQuestion = {    
-  instruction:"your question",
-  text:function() { return $(".ask-question textarea").val(); },
-  button:function() { return enabled($(".ask-question input")); }
-};
-
-var asked = function(qid) {
-  return Questions.findOne({ qid:qid });
-};
-
-var answer = {
-  instruction:"your answer",
-  text:function() { return $(".answer textarea").val(); }
-};
-
-var answered = function() {
-  return Session.get("answered") === true;
-};
-
-var plural = function(word,n) {
-  return word + (n !== 1 ? "s" : "");  
-};

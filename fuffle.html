@@ -1,60 +1,71 @@
 
 <template name="fuffle">
   <div class="fuffle">
-    {{#if notAskedQuestion}}
-      {{> askQuestion}}
+    {{#if noQuestion}}
+      {{> getQuestion}}
     {{/if}}    
-    
-    {{#if askedQuestion}}
-      {{> answerQuestion}}
+    {{#if notAnswered}}
+      {{> showQuestion}}    
+      {{> showAnswerCount}}      
+      {{> getAnswer}}
+    {{/if}}    
+    {{#if answered}}
+      {{> showQuestion}}    
+      {{> showAnswerCount}}      
+      {{> showAllAnswers}}
     {{/if}}
   </div>
 </template>
 
-<template name="askQuestion">
-  <table class="ask-question">
+<template name="getQuestion">
+  <table class="get-question">
     <tr>
       <td><textarea>{{instruction}}</textarea></td>
-      <td class="question-mark">?</td>
+      <td>?</td>
       <td><input type="button" value="ask"></td>
     </tr>
   </table>
 </template>
 
-<template name="answerQuestion">
-  {{> question}}
-  {{> answer}}
-  {{> countInfo}}
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+
+<template name="showQuestion">
+  <table class="show-question">
+    <tr>
+      <td>{{text}}</td>
+      <td>?</td>
+    </tr>
+  </table>  
+</template>
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+
+<template name="getAnswer">
+  <table class="get-answer">
+    <tr>
+      <td><textarea>{{instruction}}</textarea></td>
+      <td><input type="button" value="answer"></td>
+    </tr>
+  </table>
+</template>
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+
+<template name="showAnswerCount">
+  <div class="show-answer-count">
+    {{text}}
+  </div>
+</template>
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+
+<template name="showAllAnswers">
   <table>
     {{#each allAnswers}}
       <tr>
-        <td style="display:{{display}}">{{text}}</td>
+        <td>{{text}}</td>
       </tr>
     {{/each}}
   </table>
 </template>
 
-<template name="question">
-  <table class="question">
-    <tr>
-      <td>{{text}}</td>
-      <td class="question-mark">?</td>
-    </tr>
-  </table>  
-</template>
-
-<template name="answer">
-  <table class="answer">
-    <tr>
-      <td><textarea {{isTextReadonly}}>{{text}}</textarea></td>
-      <td><input type="button" value="answer" {{isButtonDisabled}}></td>
-    </tr>
-  </table>
-</template>
-
-<template name="countInfo">
-  <tr class="count-info">
-    <td>{{text}}</td>
-    <td></td>
-  </tr>
-</template>
