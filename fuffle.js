@@ -50,6 +50,10 @@ if (Meteor.isClient) {
   Template.getAnswer.instruction = function() {
     return getAnswer.instruction;
   };
+  Template.getAnswer.count = function() {
+    var n = Answers.find({qid:this.qid}).count();
+    return n + " given";    
+  };  
   Template.getAnswer.events({"click .get-answer input":function () {
     var text = getAnswer.text();
     if (text !== getAnswer.instruction && text !== "") {
@@ -59,12 +63,6 @@ if (Meteor.isClient) {
   }});
   Template.getAnswer.rendered = function() {
     $(".get-answer textarea").select();
-  };
-    
-  Template.showAnswerCount.text = function() {
-    function plural(word,n) { return word + (n !== 1 ? "s" : "");  };    
-    var n = Answers.find({qid:this.qid}).count();
-    return n + " " + plural("answer",n) + "...";
   };
     
   Template.showAllAnswers.allAnswers = function() {

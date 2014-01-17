@@ -1,19 +1,29 @@
 
 <template name="fuffle">
   <div class="fuffle">
+    {{> name}}
     {{#if noQuestion}}
       {{> getQuestion}}
     {{/if}}    
     {{#if notAnswered}}
       {{> showQuestion}}    
-      {{> showAnswerCount}}      
       {{> getAnswer}}
     {{/if}}    
     {{#if answered}}
       {{> showQuestion}}    
-      {{> showAnswerCount}}      
       {{> showAllAnswers}}
     {{/if}}
+  </div>
+</template>
+
+<template name="name">
+  <div class="name">
+    Fast<br>
+    Unbiased<br>
+    Feedback<br>
+    F<br>
+    L<br>
+    E<br>
   </div>
 </template>
 
@@ -22,7 +32,7 @@
     <tr>
       <td><textarea>{{instruction}}</textarea></td>
       <td>?</td>
-      <td><input type="button" value="ask"></td>
+      <td><input type="button" value="ask it"></td>
     </tr>
   </table>
 </template>
@@ -32,8 +42,7 @@
 <template name="showQuestion">
   <table class="show-question">
     <tr>
-      <td>{{text}}</td>
-      <td>?</td>
+      <td>{{text}}?</td>
     </tr>
   </table>  
 </template>
@@ -44,17 +53,10 @@
   <table class="get-answer">
     <tr>
       <td><textarea>{{instruction}}</textarea></td>
-      <td><input type="button" value="answer"></td>
+      <td><input type="button" value="give it"></td>
+      <td class="answer-count">{{count}}</td>      
     </tr>
   </table>
-</template>
-
-<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::: -->
-
-<template name="showAnswerCount">
-  <div class="show-answer-count">
-    {{text}}
-  </div>
 </template>
 
 <!-- ::::::::::::::::::::::::::::::::::::::::::::::::::: -->
@@ -63,7 +65,7 @@
   <table>
     {{#each allAnswers}}
       <tr>
-        <td>{{text}}</td>
+        <td class="answer">{{text}}</td>
       </tr>
     {{/each}}
   </table>
