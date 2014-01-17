@@ -1,32 +1,55 @@
 
 <template name="fuffle">
   <div class="fuffle">
-    <table>
-      {{> question}}
-      {{> answer}}
-      {{> countInfo}}
-      {{#each allAnswers}}
-        <tr style="display:{{display}}">
-          <td><textarea readonly>{{text}}</textarea></td>
-          <td></td>
-        </tr>      
-      {{/each}}
-    </table>
+    {{#if notAskedQuestion}}
+      {{> askQuestion}}
+    {{/if}}    
+    
+    {{#if askedQuestion}}
+      {{> answerQuestion}}
+    {{/if}}
   </div>
 </template>
 
+<template name="askQuestion">
+  <table class="ask-question">
+    <tr>
+      <td><textarea>{{instruction}}</textarea></td>
+      <td class="question-mark">?</td>
+      <td><input type="button" value="ask"></td>
+    </tr>
+  </table>
+</template>
+
+<template name="answerQuestion">
+  {{> question}}
+  {{> answer}}
+  {{> countInfo}}
+  <table>
+    {{#each allAnswers}}
+      <tr>
+        <td style="display:{{display}}">{{text}}</td>
+      </tr>
+    {{/each}}
+  </table>
+</template>
+
 <template name="question">
-  <tr class="question">
-    <td><textarea {{readonly}}>{{text}}</textarea></td>
-    <td><input type="button" value="ask" {{disabled}}></td>          
-  </tr>
+  <table class="question">
+    <tr>
+      <td>{{text}}</td>
+      <td class="question-mark">?</td>
+    </tr>
+  </table>  
 </template>
 
 <template name="answer">
-  <tr class="answer">
-    <td><textarea {{readonly}}>{{text}}</textarea></td>
-    <td><input type="button" value="answer" {{disabled}}></td>
-  </tr>
+  <table class="answer">
+    <tr>
+      <td><textarea {{isTextReadonly}}>{{text}}</textarea></td>
+      <td><input type="button" value="answer" {{isButtonDisabled}}></td>
+    </tr>
+  </table>
 </template>
 
 <template name="countInfo">

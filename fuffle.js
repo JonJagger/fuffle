@@ -17,67 +17,53 @@ Answers = new Meteor.Collection('answers');
 
 if (Meteor.isClient) {
   
-  Template.fuffle.allAnswers = function() {
-    return Answers.find({ qid: this.qid });
+  Template.fuffle.askedQuestion = function() {
+    return asked(this.qid);
   };
-  Template.fuffle.display = function() {
-    return answered() ? "block" : "none";
+  Template.fuffle.notAskedQuestion = function() {
+    return !asked(this.qid);
   };
-  Template.fuffle.rendered = function() {
-    if (question.text() === question.instruction) {
-      $(".question textarea").select();
-    } else {
-      $(".answer textarea").select();      
-    }
+    
+  Template.askQuestion.instruction = function() {
+    return askQuestion.instruction;
+  };
+  Template.askQuestion.events({"keyup .ask-question textarea":function() {
+    askQuestion.button().enableIf(askQuestion.text() !== "");
+  }});
+  Template.askQuestion.events({"click .ask-question input":function () {
+    var qid = Random.hexString(6);
+    Questions.insert({ qid:qid, text:askQuestion.text() });
+    window.location.href = '/' + qid;
+  }});
+  Template.askQuestion.rendered = function() {
+    $(".ask-question textarea").select();
   };
   
-  Template.question.readonly = function() {
-    return asked(this.qid) ? "readonly" : "";     
-  };
   Template.question.text = function() {    
-    var one = Questions.findOne({ qid:this.qid });
-    return one ? one.text : question.instruction;
+    return Questions.findOne({ qid:this.qid }).text;
   };
-  Template.question.disabled = function() {
-    var yes = "disabled='disabled'";
-    var no = "";
-    return (asked(this.qid) || question.text() !== "") ? yes : no; 
-  };
-  Template.question.events({"keyup .question textarea":function() {
-    if (!asked(this.qid) && question.text() !== "") {
-      question.button().enable();
-    } else {
-      question.button().disable();
-    }
-  }});
-  Template.question.events({"click .question input":function () {  
-    var one = { qid:Random.hexString(6), text:question.text() };
-    Questions.insert(one);
-    window.location.href = '/' + one.qid;
-  }});
-
   
-  Template.answer.readonly = function() {
-    return (!asked(this.qid) || answered()) ? "readonly" : "";
-  };
   Template.answer.text = function() {
-    return (!asked(this.qid) || answered()) ? "" : answer.instruction;
+    return answered() ? answer.text() : answer.instruction;
   };
-  Template.answer.disabled = function() {
-    var yes = "disabled='disabled'";
-    var no = "";
-    return (!asked(this.qid) || answered()) ? yes : no;
-  };  
+  Template.answer.isTextReadonly = function() {
+    return answered() ? "readonly" : "";
+  };
+  Template.answer.isButtonDisabled = function() {
+    return answered() ? "disabled='disabled'" : "";
+  };
   Template.answer.events({"click .answer input":function () {
     var text = answer.text();
-    var one = { qid:this.qid, text:text };
     if (text !== answer.instruction && text !== "") {
-      Answers.insert(one);
-      answer.text("");
-      answer.button().disable();
+      Answers.insert({ qid:this.qid, text:text });
     }
     Session.set("answered", true);
   }});
+  Template.answer.rendered = function() {
+    if (answer.text() === answer.instruction) {
+      $(".answer textarea").select();
+    }
+  };
   
   Template.countInfo.text = function() {
     var n = Answers.find({qid:this.qid}).count();
@@ -87,28 +73,33 @@ if (Meteor.isClient) {
       return "";
     }
   };
+  
+  Template.answerQuestion.allAnswers = function() {
+    return Answers.find({ qid: this.qid });
+  };
+  Template.answerQuestion.display = function() {
+    return answered() ? "block" : "none";
+  };
+
 }
 
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 var enabled = function(button) {
-  button.enable = function() {
-    this.removeAttr("disabled");
-  };
-  button.disable = function() {
-    this.attr("disabled", "disabled");
+  button.enableIf = function(condition) {
+    if (condition) {
+       this.removeAttr("disabled");
+    } else {
+      this.attr("disabled", "disabled");
+    }
   };
   return button;
 };
 
-var question = {    
-  text:function() {
-    return $(".question textarea").val();
-  },
-  instruction:"your question here",
-  button:function() {
-    return enabled($(".question input"));
-  }
+var askQuestion = {    
+  instruction:"your question",
+  text:function() { return $(".ask-question textarea").val(); },
+  button:function() { return enabled($(".ask-question input")); }
 };
 
 var asked = function(qid) {
@@ -116,15 +107,8 @@ var asked = function(qid) {
 };
 
 var answer = {
-  text:function(arg) {
-    var node = $(".answer textarea");
-    if (arg !== undefined) { node.val(arg); }
-    return node.val();
-  },
-  instruction:"your answer here",  
-  button:function() {
-    return enabled($(".answer input"));
-  } 
+  instruction:"your answer",
+  text:function() { return $(".answer textarea").val(); }
 };
 
 var answered = function() {
@@ -134,6 +118,3 @@ var answered = function() {
 var plural = function(word,n) {
   return word + (n !== 1 ? "s" : "");  
 };
-
-
-
