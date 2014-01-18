@@ -18,18 +18,11 @@ if (Meteor.isClient) {
     $(".ask input[type=text]").select();
   };
   Template.ask.events({"keyup .ask input[type=text]":function(event) {
-    var text = ask.text();
-    var isQuestion = text !== "";
-    ask.button().enableIf(isQuestion);
-    if (isQuestion && event.which === 13) {
-      var qid = saveQuestion(text);
+    var qid = Random.hexString(6);
+    if (ask.text() !== "" && event.which === 13) {      
+      Questions.insert({ qid:qid, text:ask.text() });
       Router.go('/answer/' + qid);      
     }    
-  }});
-  Template.ask.events({"click .ask input[type=button]":function () {
-    var text = ask.text();
-    var qid = saveQuestion(text);
-    Router.go('/answer/' + qid);
   }});
     
   Template.answer.rendered = function() {
@@ -37,14 +30,12 @@ if (Meteor.isClient) {
   };  
   Template.answer.events({"keyup .answer input[type=text]":function(event) {
     if (event.which === 13) {
-      saveAnswer(this.qid, answer.text());
+      if (answer.text() !== "") {
+        Answers.insert({ qid:this.qid, text:answer.text() });
+      }
       Router.go('/show/' + this.qid);      
     }    
   }});  
-  Template.answer.events({"click .answer input[type=button]":function () {
-    saveAnswer(this.qid, answer.text());
-    Router.go('/show/' + this.qid);
-  }});
     
   Template.question.text = function() {
     var question = Questions.findOne({ qid:this.qid });
@@ -80,25 +71,12 @@ if (Meteor.isServer) {
 }
 
 var ask = {    
-  text:function() { return $(".ask input[type=text]").val(); },
-  button:function() { return enabled($(".ask input[type=button]")); }
+  text:function() { return $(".ask input[type=text]").val(); }
 };
-
-var saveQuestion = function(text) {
-  var qid = Random.hexString(6);
-  Questions.insert({ qid:qid, text:text });
-  return qid;
-}
 
 var answer = {
   text:function() { return $(".answer input[type=text]").val(); }
 };
-
-var saveAnswer = function(qid,text) {
-  if (text !== "") {
-    Answers.insert({ qid:qid, text:text });
-  }
-}
 
 var enabled = function(button) {
   button.enableIf = function(condition) {
