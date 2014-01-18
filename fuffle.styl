@@ -24,9 +24,6 @@ bubbled()
     font-size 2em
     padding 1em
 
-.content
-    width 21em
-    
 .fuffle
     font_family()
     color Gray
@@ -37,7 +34,16 @@ bubbled()
         color Black
         &:after
             thin_space()
-
+.content
+    width 20em
+    
+.stats
+    margin-left 1em
+.stat
+    text-align right
+    &:after
+        content "="
+        
 .answers-container
     height 12.5em
     overflow-y auto

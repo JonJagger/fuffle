@@ -15,5 +15,4 @@ $ git remote add origin git@github.com:JonJagger/fuffle.git
 $ git push -u origin master
 $ meteor deploy fuffle.meteor.com
 
-o) if answers are numeric show n/mean/range/std-dev
 o) answer area size grows vertically dynamically

@@ -33,13 +33,15 @@
       <td>
         <div class="bubbled content">
           {{>question}}
-          <div>{{stats}}</div>        
           <div class="answers-container">
             {{#each answers}}
               <div class='one'>{{text}}</div>
             {{/each}}
           </div>
         </div>
+      </td>
+      <td>
+        <div class="bubbled stats">{{{stats}}}</div>
       </td>
     </tr>
   </table>

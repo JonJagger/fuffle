@@ -27,7 +27,7 @@ if (Meteor.isClient) {
       Router.go('/answer/' + qid);      
     }    
   }});
-    
+  //- - - - - - - - - - - - - - - - - - - - - - - -
   var answerText = function() {
     return $(".answer input[type=text]").val();
   };  
@@ -42,7 +42,7 @@ if (Meteor.isClient) {
       Router.go('/show/' + this.qid);      
     }    
   }});  
-    
+  //- - - - - - - - - - - - - - - - - - - - - - - -    
   Template.question.text = function() {
     var question = Questions.findOne({ qid:this.qid });
     var text = question ? question.text : "";
@@ -50,17 +50,41 @@ if (Meteor.isClient) {
       text += "?";
     return text;
   };
-    
-  var answers = function(qid) {
+  //- - - - - - - - - - - - - - - - - - - - - - - -    
+  var allAnswers = function(qid) {
     return Answers.find({ qid:qid }).map(function(answer) {
       return answer.text;
     });        
   };
+  var isNumber = function(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  }  
+  var numeric = function(answers) {
+    return _.every(answers, function(answer) {
+      return isNumber(answer);
+    });
+  };
+  var tr = function(title,value) {
+    return "" +
+      "<tr>" +
+        "<td class='stat'>" + title + "</td>" +
+        "<td>" + value + "</td>" +
+      "</tr>";
+  };
   Template.show.stats = function() {
-    return "n=" + answers(this.qid).length;
+    var html = "";
+    var answers = allAnswers(this.qid);
+    html += "<table>";
+    html += tr("n", answers.length);
+    if (numeric(answers)) {
+      html += tr("min", _.min(answers));
+      html += tr("max", _.max(answers));
+      html += tr("std.dev", jStat.stdev(answers).toFixed(2));
+    }
+    html += "</table>"
+    return html;
   };
   Template.show.answers = function() {
     return Answers.find({ qid:this.qid });    
   };
-
 }
