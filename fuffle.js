@@ -17,16 +17,15 @@ if (Meteor.isClient) {
   var askedText = function() {
     return $(".ask input[type=text]").val();
   };
-  var askInstruction = "type in your question and hit enter";
   Template.ask.rendered = function() {
     $(".ask input[type=text]").select();
   };
-  Template.ask.instruction = function() {
-    return askInstruction;
-  };  
+  Template.ask.tip = function() {
+    return "type in your question and hit enter";
+  };
   Template.ask.events({"keyup .ask input[type=text]":function(event) {
     var qid = Random.hexString(6);
-    if (askedText() !== "" && askedText() !== askInstruction && event.which === 13) {      
+    if (askedText() !== "" && event.which === 13) {      
       Questions.insert({ qid:qid, text:askedText() });
       Router.go('/answer/' + qid);      
     }    
@@ -38,31 +37,45 @@ if (Meteor.isClient) {
   var asked = function(qid) {
     return Questions.findOne({qid:qid});
   };
-  var answerInstruction = "type in your answer and hit enter";
-  var answerBad = function(qid) {
-    return "can't find question " + qid;    
-  };
   Template.answer.rendered = function() {
-    $(".answer input[type=text]").select(); // for focus
+    if (answerText() === "") {    
+      $(".answer input[type=text]").select(); // for focus
+    }
   };
-  Template.answer.instruction = function() {
+  Template.answer.tip = function() {
     return asked(this.qid) ?
-      answerInstruction :
-      answerBad(this.qid);
+      "type in your answer and hit enter" :
+      "<div style='color:red;'>cant find question " + this.qid + "</div>";
   };
-  Template.answer.readonly = function() {
+  Template.answer.readonly = function() { // in case URL is wrong
     return asked(this.qid) ? "" : "readonly";
+  };
+  Template.answer.validQid = function() {
+    return asked(this.qid);
   };
   Template.answer.events({"keyup .answer input[type=text]":function(event) {
     if (event.which === 13) {
-      if (answerText() !== "" &&
-          answerText() !== answerInstruction &&
-          answerText() != answerBad(this.qid)) {
+      if (answerText() !== "") {
         Answers.insert({qid:this.qid, text:answerText()});
       }
       Router.go('/show/' + this.qid);      
     }    
   }});  
+  //- - - - - - - - - - - - - - - - - - - - - - - -    
+  Template.count.soFar = function() {
+    // in its own template so as to preserve
+    // input on parent template
+    var n = Answers.find({qid:this.qid}).count();
+    if (n === 0) {
+      return "There are no answers so far."
+    } else if (n === 1) {
+      return "There is " + n + " answer so far.<br>" +
+             "You'll see it once you've entered your answer.";             
+    } else {
+      return "There are " + n + " answers so far.<br>" +
+             "You'll see them once you've entered your answer."
+    }
+  };
   //- - - - - - - - - - - - - - - - - - - - - - - -    
   Template.question.text = function() {
     var question = Questions.findOne({ qid:this.qid });

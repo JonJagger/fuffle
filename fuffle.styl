@@ -8,39 +8,54 @@ round_corners()
 thin_space()
     content "\2009"
 
+spaced()
+    margin-top 15px
+    margin-left 15px
+
 bubbled()
     background LightBlue
-    padding 1em
+    padding 25px
     round_corners()
-.bubbled
-    bubbled()
-
+    spaced()
+    
 .ask, .answer, .show
     font_family()
     font-size 2em
-    padding 1em
-
+    
 .fuffle
-    font_family()
-    color Gray
     bubbled()
-    margin-right 1em
+    font_family()
+    font-size 0.6em
+    color Gray
     .initial
         display inline-block
         color Black
         &:after
             thin_space()
+    .source
+        font-size 0.75em
+.tip
+    font-size 0.5em
 .content
-    width 18em
+    bubbled()
+    width 18em    
+.help
+    bubbled()
+    font-size 0.5em
     
 .stats
-    margin-left 1em
+    bubbled()
+    font-size 0.5em
 .stat
     text-align right
     &:after
         content "="
         
 .answers-container
+    //XXspaced()
+    margin-top 15px
+    margin-left 15px    
+    width 18em
     height 12.5em
     overflow-y auto
 .one
@@ -50,7 +65,11 @@ bubbled()
     padding-left 0.3em
     padding-right 0.3em    
     round_corners()
-    border 3px solid LightBlue
+    //margin-top 0px
+    //margin-left 0px
+    margin-bottom 6px
+    margin-right 1px
+    border 2px solid LightBlue
         
 input[type=text]
     display block

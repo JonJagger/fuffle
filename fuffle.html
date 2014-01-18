@@ -4,8 +4,9 @@
     <tr>
       <td>{{>fuffle}}</td>
       <td>
-        <div class="bubbled content">
-          <input type="text" value="{{instruction}}">
+        <div class="content">
+          <input type="text">
+          <div class="tip">{{tip}}</div>
         </div>
       </td>
     </tr>
@@ -17,13 +18,27 @@
     <tr>
       <td>{{>fuffle}}</td>
       <td>
-        <div class="bubbled content">
+        <div class="content">
           {{>question}}
-          <input type="text" value="{{instruction}}" {{readonly}}>
+          <input type="text" {{readonly}}>
+          <div class="tip">{{{tip}}}</div>
         </div>
+        {{#if validQid}}
+          <div class="help">
+            Your URL is
+            <code style="font-size:1.35em;">fuffle.meteor.com/answer/{{qid}}</code>
+          </div>
+          <div class="help">
+            {{>count}}
+          </div>
+        {{/if}}
       </td>
     </tr>
   </table>    
+</template>
+
+<template name="count">
+  {{{soFar}}}
 </template>
 
 <template name="show">
@@ -31,8 +46,10 @@
     <tr>
       <td>{{>fuffle}}</td>
       <td>
-        <div class="bubbled content">
+        <div class="content">
           {{>question}}
+        </div>
+        <div>
           <div class="answers-container">
             {{#each answers}}
               <div class='one'>{{text}}</div>
@@ -41,16 +58,14 @@
         </div>
       </td>
       <td>
-        <div class="bubbled stats">{{{stats}}}</div>
+        <div class="stats">{{{stats}}}</div>
       </td>
     </tr>
   </table>
 </template>
 
 <template name="question">
-  <div class="question">
-    {{text}}
-  </div>
+  {{text}}
 </template>
 
 <template name="fuffle">
@@ -62,6 +77,8 @@
     <div class="initial">L</div><a href="http://jonjagger.blogspot.co.uk/2013/10/learning.html">earning</a><br>
     <div class="initial">E</div>xcellence<br>
     <br>
-    <a href="https://github.com/JonJagger/fuffle">source</a>
+    <div class="source">
+      <a href="https://github.com/JonJagger/fuffle">source</a>
+    </div>
   </div>
 </template>
