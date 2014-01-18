@@ -30,12 +30,18 @@
             <div class="tip">{{{tip}}}</div>
           </div>
           <div class="help">
-            Your URL is
+            everyone can answer at
             <code style="font-size:1.35em;">fuffle.meteor.com/answer/{{qid}}</code>
+            <br>
+            you'll see all the answers once you've entered your answer
           </div>
-          <div class="help">
-            {{>count}}
-          </div>
+          <div>
+            <div class="hidden answers-container">
+              {{#each answers}}
+                <div class='one'>&nbsp;&nbsp;?&nbsp;&nbsp;</div>
+              {{/each}}
+            </div>
+          </div>          
         {{/if}}
       </td>
     </tr>

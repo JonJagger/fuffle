@@ -64,21 +64,9 @@ if (Meteor.isClient) {
       }
       Router.go('/show/' + this.qid);      
     }    
-  }});  
-  //- - - - - - - - - - - - - - - - - - - - - - - -    
-  Template.count.soFar = function() {
-    // in its own template so as to preserve
-    // text input on parent template
-    var n = Answers.find({qid:this.qid}).count();
-    if (n === 0) {
-      return "There are no answers so far."
-    } else if (n === 1) {
-      return "There is " + n + " answer so far.<br>" +
-             "You'll see it once you've entered your answer.";             
-    } else {
-      return "There are " + n + " answers so far.<br>" +
-             "You'll see them once you've entered your answer."
-    }
+  }});
+  Template.answer.answers = function() {
+    return Answers.find({qid:this.qid});  
   };
   //- - - - - - - - - - - - - - - - - - - - - - - -    
   Template.question.text = function() {
@@ -142,4 +130,14 @@ if (Meteor.isClient) {
   Template.show.answers = function() {
     return Answers.find({qid:this.qid});
   };
+}
+
+if (Meteor.isServer) {
+  var qid = "123456";
+  Questions.remove({qid:qid});
+  Questions.insert({qid:qid, text:"age"});
+  Answers.remove({qid:qid});
+  for (var i = 0; i < 256; i++) {
+    Answers.insert({qid:qid, text:i});
+  }
 }
