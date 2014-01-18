@@ -77,14 +77,3 @@ var asked = function() {
 var answered = function() {
   return $(".answer input[type=text]").val(); 
 };
-
-var enabled = function(button) {
-  button.enableIf = function(condition) {
-    if (condition) {
-       this.removeAttr("disabled");
-    } else {
-      this.attr("disabled", "disabled");
-    }
-  };
-  return button;
-};
