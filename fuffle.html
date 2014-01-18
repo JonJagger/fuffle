@@ -32,11 +32,13 @@
       <td>{{>fuffle}}</td>
       <td>
         <div class="bubbled content">
-        {{>question}}
-        <div>{{stats}}</div>        
-        <div class="answers-container">
-          {{{answers}}}
-        </div>
+          {{>question}}
+          <div>{{stats}}</div>        
+          <div class="answers-container">
+            {{#each answers}}
+              <div class='one'>{{text}}</div>
+            {{/each}}
+          </div>
         </div>
       </td>
     </tr>

@@ -60,11 +60,7 @@ if (Meteor.isClient) {
     return "n=" + answers(this.qid).length;
   };
   Template.show.answers = function() {
-    var html = "";
-    _.each(answers(this.qid), function(answer) {
-      html += "<div class='one'>" + answer + "</div>";
-    });
-    return html;    
+    return Answers.find({ qid:this.qid });    
   };
 
 }
