@@ -1,31 +1,47 @@
 
-<template name="ask">  
-  <div class="ask">
-    {{>fuffle}}
-    <table>
-      <tr>
-        <td><input type="button" value="ask"></td>
-        <td>&nbsp;</td>
-        <td><textarea>question</textarea></td>
-      </tr>
-    </table>
-  </div>
+<template name="ask">
+  <table class="ask">
+    <tr valign="top">
+      <td>{{>fuffle}}</td>
+      <td>
+        <div class="bubbled">
+          <textarea>question</textarea>
+          <input type="button" value="ask">
+        </div>
+      </td>
+    </tr>
+  </table>
 </template>
 
 <template name="answer">
-  <div class="answer">
-    {{>fuffle}}
-    <table>
-      <tr>
-        <td></td>
-        <td>{{>question}}</td>
-      </tr>
-      <tr>
-        <td><input type="button" value="answer"></td>
-        <td><textarea></textarea></td>
-      </tr>
-    </table>    
-  </div>
+  <table class="answer">
+    <tr valign="top">
+      <td>{{>fuffle}}</td>
+      <td>
+        <div class="bubbled">
+          {{>question}}
+          <textarea></textarea>
+          <input type="button" value="answer">
+        </div>
+      </td>
+    </tr>
+  </table>    
+</template>
+
+<template name="show">
+  <table class="show">
+    <tr valign="top">
+      <td>{{>fuffle}}</td>
+      <td>
+        <div style="width:60%;" class="bubbled">
+        {{>question}}
+        {{>stats}}
+        <br>
+        {{{answers}}}
+        </div>
+      </td>
+    </tr>
+  </table>
 </template>
 
 <template name="question">
@@ -34,22 +50,11 @@
   </div>
 </template>
 
-<template name="show">
-  <div class="show">
-    {{>fuffle}}
-    {{>question}}
-    {{>stats}}
-    {{{answers}}}
-  </div>
-</template>
-
 <template name="stats">
   <div class="stats">
     n={{count}}
   </div>
 </template>
-
-<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::: -->
 
 <template name="fuffle">
   <div class="fuffle">

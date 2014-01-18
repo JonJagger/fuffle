@@ -27,7 +27,7 @@ if (Meteor.isClient) {
   }});
     
   Template.answer.rendered = function() {
-    $(".answer textarea").select(); // focus
+    $(".answer textarea").select(); // for focus
   };
   Template.answer.events({"click .answer input":function () {
     var text = answer.text();
@@ -47,31 +47,17 @@ if (Meteor.isClient) {
     
   Template.stats.count = function() {
     return Answers.find({qid:this.qid}).count();
-  };  
-  Template.show.answers = function() {    
+  };
+  Template.show.answers = function() {
     var html = "";
-    var chunks = Answers.find({ qid: this.qid }).fetch().chunk(5);    
-    html += "<table>";
-    _.each(chunks, function(chunk) {
-      html += "<tr>";
-      _.each(chunk, function(answer) {
-        html += "<td class='one-answer'>" + answer.text + "</td>";        
-      });
-      html += "</tr>";
+    var all = Answers.find({ qid: this.qid }).fetch();    
+    _.each(all, function(answer) {
+      html += "<div class='one-answer'>" + answer.text + "</div>";
     });
-    html += "</table>";
-    return html;
+    return html;    
   };
 
 } // if (Meteor.isClient) {
-
-Array.prototype.chunk = function(size) {
-  var result = [ ];
-  for (var i = 0; i < this.length; i += size) {
-      result.push(this.slice(i, i + size));
-  }
-  return result;
-};
 
 var ask = {    
   text:function() { return $(".ask textarea").val(); },
@@ -92,4 +78,3 @@ var enabled = function(button) {
   };
   return button;
 };
-
