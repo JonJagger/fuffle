@@ -14,6 +14,9 @@ Answers   = new Meteor.Collection('answers');
 
 if (Meteor.isClient) {
 
+  var asked = function() {
+    return $(".ask input[type=text]").val();
+  };
   Template.ask.rendered = function() {
     $(".ask input[type=text]").select();
   };
@@ -25,6 +28,9 @@ if (Meteor.isClient) {
     }    
   }});
     
+  var answered = function() {
+    return $(".answer input[type=text]").val();
+  };  
   Template.answer.rendered = function() {
     $(".answer input[type=text]").select(); // for focus
   };  
@@ -57,12 +63,4 @@ if (Meteor.isClient) {
     return html;    
   };
 
-} // if (Meteor.isClient) {
-
-var asked = function() {
-  return $(".ask input[type=text]").val(); 
-};
-
-var answered = function() {
-  return $(".answer input[type=text]").val(); 
-};
+}
