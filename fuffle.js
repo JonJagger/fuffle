@@ -86,7 +86,8 @@ if (Meteor.isClient) {
       }
       html += tr("min", _.min(numbers));
       html += tr("max", _.max(numbers));
-      html += tr("std.dev", ""+jStat.stdev(numbers).toFixed(2));
+      html += tr("mean", jStat.mean(numbers).toFixed(2));
+      html += tr("std.dev", jStat.stdev(numbers).toFixed(2));
     }
     html += "</table>";
     return html;
