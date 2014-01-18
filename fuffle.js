@@ -14,7 +14,7 @@ Answers   = new Meteor.Collection('answers');
 
 if (Meteor.isClient) {
 
-  var asked = function() {
+  var askedText = function() {
     return $(".ask input[type=text]").val();
   };
   Template.ask.rendered = function() {
@@ -22,13 +22,13 @@ if (Meteor.isClient) {
   };
   Template.ask.events({"keyup .ask input[type=text]":function(event) {
     var qid = Random.hexString(6);
-    if (asked() !== "" && event.which === 13) {      
-      Questions.insert({ qid:qid, text:asked() });
+    if (askedText() !== "" && event.which === 13) {      
+      Questions.insert({ qid:qid, text:askedText() });
       Router.go('/answer/' + qid);      
     }    
   }});
     
-  var answered = function() {
+  var answerText = function() {
     return $(".answer input[type=text]").val();
   };  
   Template.answer.rendered = function() {
@@ -36,8 +36,8 @@ if (Meteor.isClient) {
   };  
   Template.answer.events({"keyup .answer input[type=text]":function(event) {
     if (event.which === 13) {
-      if (answered() !== "") {
-        Answers.insert({ qid:this.qid, text:answered() });
+      if (answerText() !== "") {
+        Answers.insert({ qid:this.qid, text:answerText() });
       }
       Router.go('/show/' + this.qid);      
     }    
@@ -51,14 +51,18 @@ if (Meteor.isClient) {
     return text;
   };
     
+  var answers = function(qid) {
+    return Answers.find({ qid:qid }).map(function(answer) {
+      return answer.text;
+    });        
+  };
   Template.show.stats = function() {
-    return "n=" + Answers.find({qid:this.qid}).count();
+    return "n=" + answers(this.qid).length;
   };
   Template.show.answers = function() {
     var html = "";
-    var all = Answers.find({ qid: this.qid }).fetch();    
-    _.each(all, function(answer) {
-      html += "<div class='one'>" + answer.text + "</div>";
+    _.each(answers(this.qid), function(answer) {
+      html += "<div class='one'>" + answer + "</div>";
     });
     return html;    
   };
