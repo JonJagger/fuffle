@@ -48,11 +48,31 @@ if (Meteor.isClient) {
   Template.stats.count = function() {
     return Answers.find({qid:this.qid}).count();
   };  
-  Template.show.answers = function() {
-    return Answers.find({ qid: this.qid });
+  Template.show.answers = function() {    
+    var html = "";
+    var chunks = Answers.find({ qid: this.qid }).fetch().chunk(5);    
+    html += "<table>";
+    for (var i = 0; i !== chunks.length; i++) {
+      var chunk = chunks[i];
+      html += "<tr>";
+      for (var j = 0; j !== chunk.length; j++) {
+        html += "<td class='one-answer'>" + chunk[j].text + "</td>";
+      }
+      html += "</tr>";
+    }
+    html += "</table>";
+    return html;
   };
 
 }
+
+Array.prototype.chunk = function(size) {
+  var result = [ ];
+  for (var i = 0; i < this.length; i += size) {
+      result.push(this.slice(i, i + size));
+  }
+  return result;
+};
 
 var ask = {    
   text:function() { return $(".ask textarea").val(); },
