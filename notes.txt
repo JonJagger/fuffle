@@ -15,7 +15,4 @@ $ git remote add origin git@github.com:JonJagger/fuffle.git
 $ git push -u origin master
 $ meteor deploy fuffle.meteor.com
 
-o) on answer page show N 'fake' answers in the same format
-   as on the show page, but with the text blanked out.
 o) for non-numeric data count frequency of each answer?
-o) answer area size grows vertically dynamically
