@@ -19,8 +19,8 @@ if (Meteor.isClient) {
   };
   Template.ask.events({"keyup .ask input[type=text]":function(event) {
     var qid = Random.hexString(6);
-    if (ask.text() !== "" && event.which === 13) {      
-      Questions.insert({ qid:qid, text:ask.text() });
+    if (asked() !== "" && event.which === 13) {      
+      Questions.insert({ qid:qid, text:asked() });
       Router.go('/answer/' + qid);      
     }    
   }});
@@ -30,8 +30,8 @@ if (Meteor.isClient) {
   };  
   Template.answer.events({"keyup .answer input[type=text]":function(event) {
     if (event.which === 13) {
-      if (answer.text() !== "") {
-        Answers.insert({ qid:this.qid, text:answer.text() });
+      if (answered() !== "") {
+        Answers.insert({ qid:this.qid, text:answered() });
       }
       Router.go('/show/' + this.qid);      
     }    
@@ -70,12 +70,12 @@ if (Meteor.isServer) {
   });
 }
 
-var ask = {    
-  text:function() { return $(".ask input[type=text]").val(); }
+var asked = function() {
+  return $(".ask input[type=text]").val(); 
 };
 
-var answer = {
-  text:function() { return $(".answer input[type=text]").val(); }
+var answered = function() {
+  return $(".answer input[type=text]").val(); 
 };
 
 var enabled = function(button) {
