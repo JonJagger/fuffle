@@ -20,6 +20,9 @@ if (Meteor.isClient) {
   Template.ask.rendered = function() {
     $(".ask input[type=text]").select();
   };
+  Template.ask.instruction = function() {
+    return "enter your question and hit enter";
+  };  
   Template.ask.events({"keyup .ask input[type=text]":function(event) {
     var qid = Random.hexString(6);
     if (askedText() !== "" && event.which === 13) {      
@@ -34,12 +37,12 @@ if (Meteor.isClient) {
   Template.answer.rendered = function() {
     $(".answer input[type=text]").select(); // for focus
   };
-  Template.answer.disabled = function() {
-    return Answers.findOne({qid:this.qid}) ? "" : "disabled='disabled'";
-  };
+  Template.answer.instruction = function() {
+    return "enter your answer and hit enter";
+  };  
   Template.answer.events({"keyup .answer input[type=text]":function(event) {
     if (event.which === 13) {
-      if (answerText() !== "") {
+      if (answerText() !== "" && answerText() !== Template.answer.instruction()) {
         Answers.insert({ qid:this.qid, text:answerText() });
       }
       Router.go('/show/' + this.qid);      
