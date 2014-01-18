@@ -17,15 +17,16 @@ if (Meteor.isClient) {
   var askedText = function() {
     return $(".ask input[type=text]").val();
   };
+  var askInstruction = "enter your question and hit enter";
   Template.ask.rendered = function() {
     $(".ask input[type=text]").select();
   };
   Template.ask.instruction = function() {
-    return "enter your question and hit enter";
+    return askInstruction;
   };  
   Template.ask.events({"keyup .ask input[type=text]":function(event) {
     var qid = Random.hexString(6);
-    if (askedText() !== "" && event.which === 13) {      
+    if (askedText() !== "" && askedText() !== askInstruction && event.which === 13) {      
       Questions.insert({ qid:qid, text:askedText() });
       Router.go('/answer/' + qid);      
     }    
@@ -37,12 +38,13 @@ if (Meteor.isClient) {
   var asked = function(qid) {
     return Questions.findOne({qid:qid});
   };
+  var answerInstruction = "enter your answer and hit enter";
   Template.answer.rendered = function() {
     $(".answer input[type=text]").select(); // for focus
   };
   Template.answer.instruction = function() {
     return asked(this.qid) ?
-      "enter your answer and hit enter" :
+      answerInstruction :
       "can't find question " + this.qid;
   };
   Template.answer.readonly = function() {
@@ -50,7 +52,7 @@ if (Meteor.isClient) {
   };
   Template.answer.events({"keyup .answer input[type=text]":function(event) {
     if (event.which === 13) {
-      if (answerText() !== "" && answerText() !== Template.answer.instruction()) {
+      if (answerText() !== "" && answerText() !== answerInstruction) {
         Answers.insert({qid:this.qid, text:answerText()});
       }
       Router.go('/show/' + this.qid);      
