@@ -59,17 +59,6 @@ if (Meteor.isClient) {
 
 } // if (Meteor.isClient) {
 
-if (Meteor.isServer) {
-
-  var qid = "123456";
-  Questions.remove({qid:qid});
-  Questions.insert({qid:qid, text:"Estimate"});
-  Answers.remove({qid:qid});
-  _.times(250, function(n) {
-    Answers.insert({qid:qid, text:n});
-  });
-}
-
 var asked = function() {
   return $(".ask input[type=text]").val(); 
 };
