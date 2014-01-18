@@ -42,7 +42,7 @@ if (Meteor.isClient) {
   };
   Template.answer.rendered = function() {
     if (answerText() === "") {    
-      $(".answer input[type=text]").select(); // for initial focus
+      $(".answer input[type=text]").focus(); // initially
     }
   };
   Template.answer.validQid = function() {
@@ -130,14 +130,4 @@ if (Meteor.isClient) {
   Template.show.answers = function() {
     return Answers.find({qid:this.qid});
   };
-}
-
-if (Meteor.isServer) {
-  var qid = "123456";
-  Questions.remove({qid:qid});
-  Questions.insert({qid:qid, text:"age"});
-  Answers.remove({qid:qid});
-  for (var i = 0; i < 256; i++) {
-    Answers.insert({qid:qid, text:i});
-  }
 }
