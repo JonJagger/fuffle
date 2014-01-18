@@ -52,12 +52,23 @@ if (Meteor.isClient) {
     var html = "";
     var all = Answers.find({ qid: this.qid }).fetch();    
     _.each(all, function(answer) {
-      html += "<div class='one-answer'>" + answer.text + "</div>";
+      html += "<div class='one'>" + answer.text + "</div>";
     });
     return html;    
   };
 
 } // if (Meteor.isClient) {
+
+if (Meteor.isServer) {
+
+  var qid = "123456";
+  Questions.remove({qid:qid});
+  Questions.insert({qid:qid, text:"Estimate"});
+  Answers.remove({qid:qid});
+  _.times(250, function(n) {
+    Answers.insert({qid:qid, text:n});
+  });
+}
 
 var ask = {    
   text:function() { return $(".ask textarea").val(); },
