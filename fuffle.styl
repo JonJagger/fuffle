@@ -5,11 +5,6 @@ font_family()
 round_corners()
     border-radius 10px
 
-bubbled()
-    background LightBlue
-    padding 1em
-    round_corners()
-
 left_right_padding()
     padding-left 0.3em
     padding-right 0.3em
@@ -17,11 +12,21 @@ left_right_padding()
 thin_space()
     content "\2009"
 
+bubbled()
+    background LightBlue
+    padding 1em
+    round_corners()
+.bubbled
+    bubbled()
+
 .ask, .answer, .show
     font_family()
     font-size 2em
     padding 1em
 
+.content
+    width 21em
+    
 .fuffle
     font_family()
     color Gray
@@ -33,15 +38,6 @@ thin_space()
         &:after
             thin_space()
 
-.bubbled
-    bubbled()
-    
-.content
-    width 21em
-    
-.question
-    text-align left
-    
 .answers-container
     height 12.5em
     overflow-y auto
