@@ -18,12 +18,17 @@
     <tr>
       <td>{{>fuffle}}</td>
       <td>
-        <div class="content">
-          {{>question}}
-          <input type="text" {{readonly}}>
-          <div class="tip">{{{tip}}}</div>
-        </div>
+        {{#if invalidQid}}
+          <div class="content">
+            <div class="tip">{{{badQidMessage}}}</div>
+          </div>
+        {{/if}}
         {{#if validQid}}
+          <div class="content">
+            {{>question}}
+            <input type="text">
+            <div class="tip">{{{tip}}}</div>
+          </div>
           <div class="help">
             Your URL is
             <code style="font-size:1.35em;">fuffle.meteor.com/answer/{{qid}}</code>
@@ -46,20 +51,29 @@
     <tr>
       <td>{{>fuffle}}</td>
       <td>
-        <div class="content">
-          {{>question}}
-        </div>
-        <div>
-          <div class="answers-container">
-            {{#each answers}}
-              <div class='one'>{{text}}</div>
-            {{/each}}
+        {{#if invalidQid}}
+          <div class="content">
+            <div class="tip">{{{badQidMessage}}}</div>          
           </div>
-        </div>
+        {{/if}}
+        {{#if validQid}}
+          <div class="content">
+            {{>question}}
+          </div>
+          <div>
+            <div class="answers-container">
+              {{#each answers}}
+                <div class='one'>{{text}}</div>
+              {{/each}}
+            </div>
+          </div>
+        {{/if}}
       </td>
-      <td>
-        <div class="stats">{{{stats}}}</div>
-      </td>
+      {{#if validQid}}
+        <td>
+          <div class="stats">{{{stats}}}</div>
+        </td>
+      {{/if}}
     </tr>
   </table>
 </template>

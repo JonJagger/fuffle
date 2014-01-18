@@ -37,21 +37,25 @@ if (Meteor.isClient) {
   var asked = function(qid) {
     return Questions.findOne({qid:qid});
   };
+  var badQidMessage = function(qid) {
+    return "<div style='color:red;'>cant find question " + qid + "</div>";
+  };
   Template.answer.rendered = function() {
     if (answerText() === "") {    
-      $(".answer input[type=text]").select(); // for focus
+      $(".answer input[type=text]").select(); // for initial focus
     }
-  };
-  Template.answer.tip = function() {
-    return asked(this.qid) ?
-      "type in your answer and hit enter" :
-      "<div style='color:red;'>cant find question " + this.qid + "</div>";
-  };
-  Template.answer.readonly = function() { // in case URL is wrong
-    return asked(this.qid) ? "" : "readonly";
   };
   Template.answer.validQid = function() {
     return asked(this.qid);
+  };
+  Template.answer.invalidQid = function() {
+    return !asked(this.qid);
+  };
+  Template.answer.tip = function() {
+    return "type in your answer and hit enter";
+  };
+  Template.answer.badQidMessage = function() {
+    return badQidMessage(this.qid);    
   };
   Template.answer.events({"keyup .answer input[type=text]":function(event) {
     if (event.which === 13) {
@@ -104,9 +108,18 @@ if (Meteor.isClient) {
   var tr = function(title,value) {
     return "" +
       "<tr>" +
-        "<td class='stat'>" + title + "</td>" +
-        "<td>" + value + "</td>" +
+        "<td class='name'>" + title + "</td>" +
+        "<td class='value'>" + value + "</td>" +
       "</tr>";
+  };
+  Template.show.validQid = function() {
+    return asked(this.qid);
+  }
+  Template.show.invalidQid = function() {
+    return !asked(this.qid);
+  }
+  Template.show.badQidMessage = function() {
+    return badQidMessage(this.qid);
   };
   Template.show.stats = function() {
     var html = "";

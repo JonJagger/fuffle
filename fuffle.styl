@@ -46,13 +46,16 @@ bubbled()
 .stats
     bubbled()
     font-size 0.5em
-.stat
-    text-align right
-    &:after
-        content "="
+    .name
+        text-align right
+        &:after
+            content ":"
+    .value
+        text-align left
+        &:before
+            content " "
         
 .answers-container
-    //XXspaced()
     margin-top 15px
     margin-left 15px    
     width 18em
@@ -65,8 +68,6 @@ bubbled()
     padding-left 0.3em
     padding-right 0.3em    
     round_corners()
-    //margin-top 0px
-    //margin-left 0px
     margin-bottom 6px
     margin-right 1px
     border 2px solid LightBlue
