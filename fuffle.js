@@ -33,7 +33,10 @@ if (Meteor.isClient) {
   };  
   Template.answer.rendered = function() {
     $(".answer input[type=text]").select(); // for focus
-  };  
+  };
+  Template.answer.disabled = function() {
+    return Answers.findOne({qid:this.qid}) ? "" : "disabled='disabled'";
+  };
   Template.answer.events({"keyup .answer input[type=text]":function(event) {
     if (event.which === 13) {
       if (answerText() !== "") {
