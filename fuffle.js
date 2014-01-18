@@ -68,7 +68,7 @@ if (Meteor.isClient) {
   //- - - - - - - - - - - - - - - - - - - - - - - -    
   Template.count.soFar = function() {
     // in its own template so as to preserve
-    // input on parent template
+    // text input on parent template
     var n = Answers.find({qid:this.qid}).count();
     if (n === 0) {
       return "There are no answers so far."
@@ -105,10 +105,10 @@ if (Meteor.isClient) {
       return parseFloat(number);
     });
   };
-  var tr = function(title,value) {
+  var tr = function(name,value) {
     return "" +
       "<tr>" +
-        "<td class='name'>" + title + "</td>" +
+        "<td class='name'>" + name + "</td>" +
         "<td class='value'>" + value + "</td>" +
       "</tr>";
   };
