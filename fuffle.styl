@@ -1,41 +1,58 @@
 
+font_family()
+    font-family Impact, Charcoal, sans-serif 
+
 centered()
     display table
     margin 0 auto
 
+thin_space()
+    content "\2009"
+
 .ask, .answer, .show
+    font_family()
     background Moccasin
     padding 4em
+
 .fuffle
+    font-size 2em    
+    background LightGray
+    padding 1em
+    border-radius 10px    
     float right
-    font-size 1em    
+    .initial
+        color Green
+        &:after
+            thin_space()
 
 .question
     centered()
     font-size 2.5em
 .stats
     centered()
+    font-size 1.2em
 .one-answer
+    font_family()
+    font-size 2em
     background GhostWhite
     padding-left 0.5em
     padding-right 0.5em
     text-align center
     border 2px solid Moccasin
-    font-size 2em
+    border-radius 10px        
     
 textarea
-    text-align left
+    font_family()
     font-size 2em 
+    text-align left
     width 15em
     height 1.2em
 input[type=button]
+    font_family()
     background GhostWhite
     border-radius 10px
     font-size 1.5em 
     padding 0.25em
-    color Black
-    cursor pointer
-    font-style normal        
     &:disabled
         color DarkGray
         cursor default

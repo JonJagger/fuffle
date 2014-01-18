@@ -1,4 +1,5 @@
 
+$ curl install.meteor.com | sh
 $ meteor create fuffle
 $ cd fuffle
 $ meteor uninstall --system
@@ -6,6 +7,8 @@ $ meteor add stylus
 $ meteor add ejson
 $ meteor add random
 $ mrt add iron-router
+
+$ git init
 $ git remote rm origin
 $ git remote add origin git@github.com:JonJagger/fuffle.git
 
@@ -13,6 +16,5 @@ $ git push -u origin master
 $ meteor deploy fuffle.meteor.com
 
 o) chunk answers into 10's (avoid scroll when n is large)
-o) CSS TLC
 o) answers need their own overflow-y
 o) if answers are numeric show n/mean/range/std-dev
