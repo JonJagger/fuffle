@@ -1,12 +1,12 @@
 
 <template name="ask">  
   <div class="ask">
-    {{> info}}
+    {{>info}}
     <table>
       <tr>
-        <td><textarea>question</textarea></td>
-        <td>&nbsp;</td>
         <td><input type="button" value="ask"></td>
+        <td>&nbsp;</td>
+        <td><textarea>question</textarea></td>
       </tr>
     </table>
   </div>
@@ -14,27 +14,32 @@
 
 <template name="answer">
   <div class="answer">
-    {{> info}}
-    {{> question}}    
+    {{>info}}
     <table>
+      {{>question}}    
       <tr>
-        <td><textarea></textarea></td>
-        <td>&nbsp;</td>
         <td><input type="button" value="answer"></td>
-        <td>&nbsp;</td>
-        <td class="count">{{count}}</td>      
+        <td><textarea></textarea></td>
       </tr>
     </table>    
   </div>
 </template>
 
+<template name="question">
+  <tr class="question">
+    <td></td>
+    <td>{{text}}</td>
+  </tr>
+</template>
+
 <template name="show">
   <div class="show">
-    {{> info}}
-    {{> question}}    
+    {{>info}}
     <table>
+      {{>question}}    
       {{#each answers}}
         <tr>
+          <td></td>
           <td class="one-answer">{{text}}</td>
         </tr>
       {{/each}}
@@ -44,22 +49,20 @@
 
 <!-- ::::::::::::::::::::::::::::::::::::::::::::::::::: -->
 
-<template name="question">
-  <div class="question">
-    {{text}}
-  </div>
-</template>
-
 <template name="info">
   <div class="app-name">
-    Fast<br>
-    U<a href="http://en.wikipedia.org/wiki/Anchoring">nbiased</a><br>
-    F<a href="http://jonjagger.blogspot.co.uk/2013/11/fun-with-feedback-frequency.html">eedback</a><br>
-    F<br>
-    L<br>
-    E<br>
+    F{{>gap}}requent<br>
+    U{{>gap}}<a href="http://en.wikipedia.org/wiki/Anchoring">nbiased</a><br>
+    F{{>gap}}<a href="http://jonjagger.blogspot.co.uk/2013/11/fun-with-feedback-frequency.html">eedback</a><br>
+    F{{>gap}}osters<br>
+    L{{>gap}}<a href="http://jonjagger.blogspot.co.uk/2013/10/learning.html">earning</a><br>
+    E{{>gap}}xcellence<br>
   </div>
   <div class="source-link">
     <a href="https://github.com/JonJagger/fuffle">source</a>
   </div>
+</template>
+
+<template name="gap">
+  &thinsp;
 </template>

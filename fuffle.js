@@ -27,6 +27,7 @@ if (Meteor.isClient) {
   }});
     
   Template.answer.count = function() {
+    // currently not used. See notes.txt
     return Answers.find({qid:this.qid}).count() + " given";
   };  
   Template.answer.rendered = function() {
