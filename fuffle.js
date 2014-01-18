@@ -14,22 +14,22 @@ Answers   = new Meteor.Collection('answers');
 
 if (Meteor.isClient) {
 
-  Template.ask.events({"keyup .ask textarea":function() {
+  Template.ask.events({"keyup .ask input[type=text]":function() {
     ask.button().enableIf(ask.text() !== "");
   }});
   Template.ask.rendered = function() {
-    $(".ask textarea").select();
+    $(".ask input[type=text]").select();
   };
-  Template.ask.events({"click .ask input":function () {
+  Template.ask.events({"click .ask input[type=button]":function () {
     var qid = Random.hexString(6);
     Questions.insert({ qid:qid, text:ask.text() });
     Router.go('/answer/' + qid);
   }});
     
   Template.answer.rendered = function() {
-    $(".answer textarea").select(); // for focus
+    $(".answer input[type=text]").select(); // for focus
   };
-  Template.answer.events({"click .answer input":function () {
+  Template.answer.events({"click .answer input[type=button]":function () {
     var text = answer.text();
     if (text !== "") {
       Answers.insert({ qid:this.qid, text:text });
@@ -45,8 +45,8 @@ if (Meteor.isClient) {
     return text;
   };
     
-  Template.stats.count = function() {
-    return Answers.find({qid:this.qid}).count();
+  Template.show.stats = function() {
+    return "n=" + Answers.find({qid:this.qid}).count();
   };
   Template.show.answers = function() {
     var html = "";
@@ -71,12 +71,12 @@ if (Meteor.isServer) {
 }
 
 var ask = {    
-  text:function() { return $(".ask textarea").val(); },
-  button:function() { return enabled($(".ask input")); }
+  text:function() { return $(".ask input[type=text]").val(); },
+  button:function() { return enabled($(".ask input[type=button]")); }
 };
 
 var answer = {
-  text:function() { return $(".answer textarea").val(); }
+  text:function() { return $(".answer input[type=text]").val(); }
 };
 
 var enabled = function(button) {

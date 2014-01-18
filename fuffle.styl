@@ -2,68 +2,73 @@
 font_family()
     font-family Impact, Charcoal, sans-serif 
 
+round_corners()
+    border-radius 10px
+
 bubbled()
     background LightBlue
     padding 1em
-    border-radius 10px
+    round_corners()
+
+left_right_padding()
+    padding-left 0.3em
+    padding-right 0.3em
 
 thin_space()
     content "\2009"
 
 .ask, .answer, .show
     font_family()
-    padding 3em
+    font-size 2em
+    padding 1em
 
-.bubbled
-    bubbled()
-    
 .fuffle
     font_family()
-    font-size 2em    
     color Gray
     bubbled()
     margin-right 1em
     .initial
+        display inline-block
         color Black
         &:after
             thin_space()
+
+.bubbled
+    bubbled()
+    
+.content
+    width 21em
     
 .question
-    font-size 2.5em
     text-align left
-.stats
-    font-size 1.2em
     
 .answers-container
-    height 30.5em
+    height 12.5em
     overflow-y auto
 .one
-    display inline-block
     font_family()
-    font-size 2em
+    display inline-block
     background White
-    padding-left 0.25em
-    padding-right 0.25em
-    text-align center
+    left_right_padding()    
+    round_corners()
     border 3px solid LightBlue
-    border-radius 10px        
-    
-textarea
+        
+input
     display block
     font_family()
-    font-size 2em 
-    text-align left
-    width 15em
-    height 1.2em
-    
-input[type=button]
-    font_family()
+    font-size 1em 
     background GhostWhite
-    border-radius 10px
-    font-size 1.5em 
-    padding 0.25em
-    &:disabled
-        color DarkGray
-        cursor default
-        font-style italic
+    
+input[type=text]
+    width 20em
+    left_right_padding()    
 
+input[type=button]
+    round_corners()
+    cursor pointer
+    &:disabled
+        color LightGray
+        cursor default
+
+tr
+    vertical-align top

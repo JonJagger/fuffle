@@ -1,11 +1,11 @@
 
 <template name="ask">
   <table class="ask">
-    <tr valign="top">
+    <tr>
       <td>{{>fuffle}}</td>
       <td>
-        <div class="bubbled">
-          <textarea>question</textarea>
+        <div class="bubbled content">
+          <input type="text" value="question">
           <input type="button" value="ask">
         </div>
       </td>
@@ -15,12 +15,12 @@
 
 <template name="answer">
   <table class="answer">
-    <tr valign="top">
+    <tr>
       <td>{{>fuffle}}</td>
       <td>
-        <div class="bubbled">
+        <div class="bubbled content">
           {{>question}}
-          <textarea></textarea>
+          <input type="text">
           <input type="button" value="answer">
         </div>
       </td>
@@ -30,13 +30,12 @@
 
 <template name="show">
   <table class="show">
-    <tr valign="top">
+    <tr>
       <td>{{>fuffle}}</td>
       <td>
-        <div style="width:60%;" class="bubbled">
+        <div class="bubbled content">
         {{>question}}
-        {{>stats}}
-        <br>
+        <div>{{stats}}</div>        
         <div class="answers-container">
           {{{answers}}}
         </div>
@@ -52,20 +51,14 @@
   </div>
 </template>
 
-<template name="stats">
-  <div class="stats">
-    n={{count}}
-  </div>
-</template>
-
 <template name="fuffle">
   <div class="fuffle">
-    <span class="initial">F</span>requent<br>
-    <span class="initial">U</span><a href="http://en.wikipedia.org/wiki/Anchoring">nbiased</a><br>
-    <span class="initial">F</span><a href="http://jonjagger.blogspot.co.uk/2013/11/fun-with-feedback-frequency.html">eedback</a><br>
-    <span class="initial">F</span>osters<br>
-    <span class="initial">L</span><a href="http://jonjagger.blogspot.co.uk/2013/10/learning.html">earning</a><br>
-    <span class="initial">E</span>xcellence<br>
+    <div class="initial">F</div>requent<br>
+    <div class="initial">U</div><a href="http://en.wikipedia.org/wiki/Anchoring">nbiased</a><br>
+    <div class="initial">F</div><a href="http://jonjagger.blogspot.co.uk/2013/11/fun-with-feedback-frequency.html">eedback</a><br>
+    <div class="initial">F</div>osters<br>
+    <div class="initial">L</div><a href="http://jonjagger.blogspot.co.uk/2013/10/learning.html">earning</a><br>
+    <div class="initial">E</div>xcellence<br>
     <br>
     <a href="https://github.com/JonJagger/fuffle">source</a>
   </div>
