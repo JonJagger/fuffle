@@ -39,20 +39,25 @@ if (Meteor.isClient) {
     return Questions.findOne({qid:qid});
   };
   var answerInstruction = "enter your answer and hit enter";
+  var answerBad = function(qid) {
+    return "can't find question " + qid;    
+  };
   Template.answer.rendered = function() {
     $(".answer input[type=text]").select(); // for focus
   };
   Template.answer.instruction = function() {
     return asked(this.qid) ?
       answerInstruction :
-      "can't find question " + this.qid;
+      answerBad(this.qid);
   };
   Template.answer.readonly = function() {
     return asked(this.qid) ? "" : "readonly";
   };
   Template.answer.events({"keyup .answer input[type=text]":function(event) {
     if (event.which === 13) {
-      if (answerText() !== "" && answerText() !== answerInstruction) {
+      if (answerText() !== "" &&
+          answerText() !== answerInstruction &&
+          answerText() != answerBad(this.qid)) {
         Answers.insert({qid:this.qid, text:answerText()});
       }
       Router.go('/show/' + this.qid);      
