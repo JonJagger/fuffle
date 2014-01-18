@@ -17,7 +17,7 @@ if (Meteor.isClient) {
   var askedText = function() {
     return $(".ask input[type=text]").val();
   };
-  var askInstruction = "enter your question and hit enter";
+  var askInstruction = "type in your question and hit enter";
   Template.ask.rendered = function() {
     $(".ask input[type=text]").select();
   };
@@ -38,7 +38,7 @@ if (Meteor.isClient) {
   var asked = function(qid) {
     return Questions.findOne({qid:qid});
   };
-  var answerInstruction = "enter your answer and hit enter";
+  var answerInstruction = "type in your answer and hit enter";
   var answerBad = function(qid) {
     return "can't find question " + qid;    
   };
