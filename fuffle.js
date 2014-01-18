@@ -51,17 +51,20 @@ if (Meteor.isClient) {
     return text;
   };
   //- - - - - - - - - - - - - - - - - - - - - - - -    
+  var isNumber = function(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  }  
   var allAnswers = function(qid) {
     return Answers.find({ qid:qid }).map(function(answer) {
       return answer.text;
     });        
   };
-  var isNumber = function(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
-  }  
   var numeric = function(answers) {
-    return _.every(answers, function(answer) {
+    var numbers = _.filter(answers, function(answer) {
       return isNumber(answer);
+    });
+    return _.map(numbers, function(number) {
+      return parseFloat(number);
     });
   };
   var tr = function(title,value) {
@@ -75,13 +78,17 @@ if (Meteor.isClient) {
     var html = "";
     var answers = allAnswers(this.qid);
     html += "<table>";
-    html += tr("n", answers.length);
-    if (numeric(answers)) {
-      html += tr("min", _.min(answers));
-      html += tr("max", _.max(answers));
-      html += tr("std.dev", jStat.stdev(answers).toFixed(2));
+    html += tr("answers", answers.length);
+    var numbers = numeric(answers);
+    if (numbers.length !== 0) {
+      if (numbers.length !== answers.length) {
+        html += tr("numbers", numbers.length);
+      }
+      html += tr("min", _.min(numbers));
+      html += tr("max", _.max(numbers));
+      html += tr("std.dev", ""+jStat.stdev(numbers).toFixed(2));
     }
-    html += "</table>"
+    html += "</table>";
     return html;
   };
   Template.show.answers = function() {
