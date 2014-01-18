@@ -1,7 +1,7 @@
 
 <template name="ask">  
   <div class="ask">
-    {{>info}}
+    {{>fuffle}}
     <table>
       <tr>
         <td><input type="button" value="ask"></td>
@@ -14,9 +14,12 @@
 
 <template name="answer">
   <div class="answer">
-    {{>info}}
+    {{>fuffle}}
     <table>
-      {{>question}}    
+      <tr>
+        <td></td>
+        <td>{{>question}}</td>
+      </tr>
       <tr>
         <td><input type="button" value="answer"></td>
         <td><textarea></textarea></td>
@@ -26,17 +29,17 @@
 </template>
 
 <template name="question">
-  <tr class="question">
-    <td></td>
-    <td>{{text}}</td>
-  </tr>
+  <div class="question">
+    {{text}}
+  </div>
 </template>
 
 <template name="show">
   <div class="show">
-    {{>info}}
+    {{>fuffle}}
+    {{>question}}
+    {{>stats}}
     <table>
-      {{>question}}    
       {{#each answers}}
         <tr>
           <td></td>
@@ -47,18 +50,23 @@
   </div>
 </template>
 
+<template name="stats">
+  <div class="stats">
+    n={{count}}
+  </div>
+</template>
+
 <!-- ::::::::::::::::::::::::::::::::::::::::::::::::::: -->
 
-<template name="info">
-  <div class="app-name">
+<template name="fuffle">
+  <div class="fuffle">
     F{{>gap}}requent<br>
     U{{>gap}}<a href="http://en.wikipedia.org/wiki/Anchoring">nbiased</a><br>
     F{{>gap}}<a href="http://jonjagger.blogspot.co.uk/2013/11/fun-with-feedback-frequency.html">eedback</a><br>
     F{{>gap}}osters<br>
     L{{>gap}}<a href="http://jonjagger.blogspot.co.uk/2013/10/learning.html">earning</a><br>
     E{{>gap}}xcellence<br>
-  </div>
-  <div class="source-link">
+    <br>
     <a href="https://github.com/JonJagger/fuffle">source</a>
   </div>
 </template>

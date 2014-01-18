@@ -26,12 +26,8 @@ if (Meteor.isClient) {
     Router.go('/answer/' + qid);
   }});
     
-  Template.answer.count = function() {
-    // currently not used. See notes.txt
-    return Answers.find({qid:this.qid}).count() + " given";
-  };  
   Template.answer.rendered = function() {
-    $(".answer textarea").select();
+    $(".answer textarea").select(); // focus
   };
   Template.answer.events({"click .answer input":function () {
     var text = answer.text();
@@ -49,6 +45,9 @@ if (Meteor.isClient) {
     return text;
   };
     
+  Template.stats.count = function() {
+    return Answers.find({qid:this.qid}).count();
+  };  
   Template.show.answers = function() {
     return Answers.find({ qid: this.qid });
   };
