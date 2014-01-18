@@ -6,7 +6,7 @@ Your URL will now be something like this http://fuffle.meteor.com/answer/2e34f1
 Everyone who wants to give an answer goes to this URL.
 Each person types in their answer and hits enter.
 Each person then sees everyone's answers.
-If any of the answers are numeric min,max,std.dev will be shown too.
+If any of the answers are numeric min,max,mean,std.dev will be shown too.
 
 Seeing everyone's answers only *after* answering yourself
 helps to avoid initial bias (http://en.wikipedia.org/wiki/Anchoring).
