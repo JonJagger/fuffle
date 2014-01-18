@@ -52,19 +52,18 @@ if (Meteor.isClient) {
     var html = "";
     var chunks = Answers.find({ qid: this.qid }).fetch().chunk(5);    
     html += "<table>";
-    for (var i = 0; i !== chunks.length; i++) {
-      var chunk = chunks[i];
+    _.each(chunks, function(chunk) {
       html += "<tr>";
-      for (var j = 0; j !== chunk.length; j++) {
-        html += "<td class='one-answer'>" + chunk[j].text + "</td>";
-      }
+      _.each(chunk, function(answer) {
+        html += "<td class='one-answer'>" + answer.text + "</td>";        
+      });
       html += "</tr>";
-    }
+    });
     html += "</table>";
     return html;
   };
 
-}
+} // if (Meteor.isClient) {
 
 Array.prototype.chunk = function(size) {
   var result = [ ];
