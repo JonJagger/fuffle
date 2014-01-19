@@ -8,6 +8,18 @@
           <input type="text">
           <div class="tip">{{tip}}</div>
         </div>
+        <div class="help">
+          &bull; this will create a URL such as
+          <code style="font-size:1.35em;">fuffle.meteor.com/answer/2de56a</code>
+          <br>
+          &bull; anyone can use the URL to answer the question
+        </div>        
+        <div class="hidden answers-container">
+          <div class='one'>&nbsp;&nbsp;&nbsp;?&nbsp;&nbsp;&nbsp;</div>
+          <div class='one'>&nbsp;?&nbsp;</div>
+          <div class='one'>&nbsp;&nbsp;?&nbsp;&nbsp;</div>
+          <div class='one'>&nbsp;&nbsp;&nbsp;&nbsp;?&nbsp;&nbsp;&nbsp;&nbsp;</div>
+        </div>        
       </td>
     </tr>
   </table>
@@ -30,18 +42,16 @@
             <div class="tip">{{{tip}}}</div>
           </div>
           <div class="help">
-            everyone can answer at
+            &bull; the URL is
             <code style="font-size:1.35em;">fuffle.meteor.com/answer/{{qid}}</code>
             <br>
-            you'll see all the answers once you've entered your answer
+            &bull; anyone can use the URL to answer the question            
           </div>
-          <div>
-            <div class="hidden answers-container">
-              {{#each answers}}
-                <div class='one'>&nbsp;&nbsp;?&nbsp;&nbsp;</div>
-              {{/each}}
-            </div>
-          </div>          
+          <div class="hidden answers-container">
+            {{#each answers}}
+              <div class='one'>&nbsp;&nbsp;?&nbsp;&nbsp;</div>
+            {{/each}}
+          </div>
         {{/if}}
       </td>
     </tr>
@@ -66,12 +76,10 @@
           <div class="content">
             {{>question}}
           </div>
-          <div>
-            <div class="answers-container">
-              {{#each answers}}
-                <div class='one'>{{text}}</div>
-              {{/each}}
-            </div>
+          <div class="answers-container">
+            {{#each answers}}
+              <div class='one'>{{text}}</div>
+            {{/each}}
           </div>
         {{/if}}
       </td>
@@ -85,7 +93,9 @@
 </template>
 
 <template name="question">
-  {{text}}
+  <div class="question">
+    {{text}}
+  </div>
 </template>
 
 <template name="fuffle">

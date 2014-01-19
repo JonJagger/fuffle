@@ -21,7 +21,7 @@ if (Meteor.isClient) {
     $(".ask input[type=text]").select();
   };
   Template.ask.tip = function() {
-    return "type in your question and hit enter";
+    return "type in the question and hit enter";
   };
   Template.ask.events({"keyup .ask input[type=text]":function(event) {
     var qid = Random.hexString(6);
