@@ -15,4 +15,5 @@ $ git remote add origin git@github.com:JonJagger/fuffle.git
 $ git push -u origin master
 $ meteor deploy fuffle.meteor.com
 
+o) needs more info on page asking for question
 o) for non-numeric data count frequency of each answer?
