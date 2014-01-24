@@ -12,15 +12,6 @@ Router.map(function() {
 Questions = new Meteor.Collection('questions');
 Answers   = new Meteor.Collection('answers');
 
-Meteor.methods({
-  addQuestion: function(qid,text) {
-    Questions.insert({ qid:qid, text:text });    
-  },
-  addAnswer: function(qid,text) {
-    Answers.insert({ qid:qid, text:text });        
-  }
-});
-
 if (Meteor.isClient) {
 
   var askedText = function() {
@@ -35,7 +26,7 @@ if (Meteor.isClient) {
   Template.ask.events({"keyup .ask input[type=text]":function(event) {
     var qid = Random.hexString(6);
     if (askedText() !== "" && event.which === 13) {      
-      Meteor.call("addQuestion",qid,askedText());
+      Questions.insert({ qid:qid, text:askedText() });
       Router.go('/answer/' + qid);      
     }    
   }});
@@ -69,7 +60,7 @@ if (Meteor.isClient) {
   Template.answer.events({"keyup .answer input[type=text]":function(event) {
     if (event.which === 13) {
       if (answerText() !== "") {
-        Meteor.call("addAnswer",this.qid,answerText());        
+        Answers.insert({qid:this.qid, text:answerText()});
       }
       Router.go('/show/' + this.qid);      
     }    
